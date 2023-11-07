@@ -30,6 +30,8 @@ class MyHomePage extends StatefulWidget {
 
   // görün
 
+  //Seyma_First_Commit. Good evening...
+
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
