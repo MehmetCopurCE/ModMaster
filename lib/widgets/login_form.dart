@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../auth/forgot_password.dart';
-import '../auth/sign_up.dart';
+import '../auth/register_page.dart';
 import '../screens/home_page.dart';
 
 class LoginForm extends StatefulWidget {
@@ -96,7 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CreateAccountPage()),
+                        builder: (context) => RegisterPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
