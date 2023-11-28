@@ -1,5 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import '../screens/home_page.dart';
 import '../widgets/login_form.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,8 +13,53 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String emails = "mehmet.copur@gmail.com";
   String password = "123456";
+
+
+  void initState() {
+    super.initState();
+    // Initialize Firebase
+    Firebase.initializeApp();
+  }
+
+  // Function to sign in with email and password
+  Future<void> signInWithEmailAndPassword(BuildContext context,String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Check if the login is successful
+      if (userCredential.user != null) {
+        // Navigate to the home page upon successful login
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage(title: 'kjhkj')),
+        );
+      } else {
+        // Handle the case when userCredential.user is null (unsuccessful login)
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed. Check your email and password.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      print("Error: $e");
+      // Handle errors here, e.g., show an error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Login failed. Check your email and password.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
+  }
+
 
   String firebaseEmails = "yasasin.mobil@gmail.com";
   String firebasePassword = "123456";

@@ -3,15 +3,52 @@ import 'package:flutter/material.dart';
 import '../auth/forgot_password.dart';
 import '../auth/sign_up.dart';
 import '../screens/home_page.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  // Function to sign in with email and password
+  Future<void> signInWithEmailAndPassword(BuildContext context, String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Check if the login is successful
+      if (userCredential.user != null) {
+        // Navigate to the home page upon successful login
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage(title: 'kjhkj')),
+        );
+      } else {
+        // Handle the case when userCredential.user is null (unsuccessful login)
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed. Check your email and password.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      print("Error: $e");
+      // Handle errors here, e.g., show an error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Login failed. Check your email and password.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +111,9 @@ class _LoginFormState extends State<LoginForm> {
                 onPressed: () {
                   String email = _emailController.text;
                   String password = _passwordController.text;
-                  print('Email: $email, Password: $password');
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage(title: "title"),));
+                  signInWithEmailAndPassword(context, email, password);
+
+
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black,
