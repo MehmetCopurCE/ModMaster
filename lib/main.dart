@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'auth/login_page.dart';
+import 'package:mobile_project/screens/auth_check.dart';
+import 'auth/screens/login_page.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const AuthCheck(),
     );
   }
 }

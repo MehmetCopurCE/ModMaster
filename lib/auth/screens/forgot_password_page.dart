@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/widgets/custom_show_alert_message.dart';
+import 'package:mobile_project/auth/widgets/forgot_password_form.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   ForgotPasswordPage({super.key});
@@ -22,7 +23,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       try {
         await _auth.sendPasswordResetEmail(email: enteredEmail);
         // // E-posta gönderildiğinde başarılı olduğunu kullanıcıya bildirin
-        ShowMessage().showMessage(context, "Şifre Sıfırlama", "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.");
+        ShowMessage().showMessage(context, "Şifre Sıfırlama",
+            "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.");
       } catch (e) {
         print("Error sending password reset email: $e");
         // Hata durumunda kullanıcıya bir hata mesajı gösterin
@@ -44,7 +46,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         //     );
         //   },
         // );
-        ShowMessage().showMessage(context, "Hata", "Şifre sıfırlama bağlantısı gönderilemedi. Lütfen geçerli bir e-posta adresi girin.");
+        ShowMessage().showMessage(context, "Hata",
+            "Şifre sıfırlama bağlantısı gönderilemedi. Lütfen geçerli bir e-posta adresi girin.");
       }
     }
   }
@@ -53,42 +56,44 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Forgot Password'),
-        backgroundColor: Colors.blue,
+        title: Text('Reset Password'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Reset Password?", style: TextStyle(fontSize: 40)),
-              Text("Enter the email address associated with your account.", style: TextStyle(fontSize: 18)),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'E-posta boş bırakılamaz';
-                  } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                      .hasMatch(value)) {
-                    return 'Geçerli bir e-posta adresi girin';
-                  }
-                  return null; // Geçerli
-                },
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.white, Colors.grey],
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/images/img_reset_password.png", width: 100),
+                  const Text(
+                    "Reset Password?",
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
+                    ),
+                  ),
+                  const Text(
+                    "Enter the email address associated with your account.",
+                    style: TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  const ForgotPasswordForm(),
+                ],
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  resetPassword();
-                },
-                child: Text('Reset Password'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
