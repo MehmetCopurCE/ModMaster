@@ -5,6 +5,7 @@ class ShowMessage {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
+        backgroundColor: Colors.white,
         title: Text(
           title,
           textAlign: TextAlign.center,
