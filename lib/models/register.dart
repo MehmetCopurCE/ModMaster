@@ -9,10 +9,10 @@ Register registerFromJson(String str) => Register.fromJson(json.decode(str));
 String registerToJson(Register data) => json.encode(data.toJson());
 
 class Register {
-  String registerAddress;
-  String registerName;
-  String registerValue;
-  String displayName;
+  final String registerAddress;
+  final String registerName;
+  final String registerValue;
+  final String displayName;
 
   Register({
     required this.registerAddress,
