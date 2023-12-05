@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_project/screens/auth_check.dart';
 import 'package:mobile_project/widgets/custom_show_alert_message.dart';
-import '../screens/forgot_password_page.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -139,6 +139,17 @@ class RegisterFormState extends State<RegisterForm> {
     );
   }
 
+  Future<void> goAuthCheck() async {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const AuthCheck()),
+    );
+  }
+
+  void showErrorMessage(String title, String content) {
+    ShowMessage().showMessage(context, title, content);
+  }
+
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -147,12 +158,7 @@ class RegisterFormState extends State<RegisterForm> {
           password: _passwordController.text,
         );
 
-        // Hesap oluşturulduktan sonra giriş yapabilirsiniz ya da kullanıcıyı başka bir sayfaya yönlendirebilirsiniz.
-        // Örneğin:
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => YourHomePage()),
-        // );
+        await goAuthCheck();
       } on FirebaseAuthException catch (e) {
         debugPrint("FirebaseAuthException: $e");
 
@@ -172,12 +178,12 @@ class RegisterFormState extends State<RegisterForm> {
             errorMessage = 'Registration failed. Please try again later.';
         }
 
-        ShowMessage()
-            .showMessage(context, "Registeration Failed", errorMessage);
+        //ShowMessage().showMessage(context, "Registeration Failed", errorMessage);
+        showErrorMessage("Registeration Failed", errorMessage);
       } catch (e) {
         debugPrint("Error: $e");
-        ShowMessage().showMessage(
-            context, "Registeration Failed", "Please try again later.");
+        //ShowMessage().showMessage(context, "Registeration Failed", "Please try again later.");
+        showErrorMessage("Registeration Failed", "Please try again later.");
       }
     }
   }

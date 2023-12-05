@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.22.0
   firebase_auth: ^4.13.0
+  http: ^1.1.0
 
 
 dev_dependencies:
@@ -66,6 +67,7 @@ flutter:
     - assets/images/img_reset_password.png
     - assets/images/img_login.png
     - assets/images/img_register.png
+
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

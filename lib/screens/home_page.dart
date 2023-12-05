@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:mobile_project/screens/registers_page.dart';
 import '../auth/screens/login_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,10 +15,10 @@ class _HomePageState extends State<HomePage> {
     try {
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => LoginPage(),
+        builder: (context) => const LoginPage(),
       ));
     } catch (e) {
-      print('Oturum kapatma hatası: $e');
+      debugPrint('Oturum kapatma hatası: $e');
     }
   }
 
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ana Ekran'),
+        title: const Text('Ana Ekran'),
         centerTitle: true,
       ),
       body: Center(
@@ -37,7 +37,15 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 30),
             Text('Firebase Auth Çıkış İçin Tıklayın'),
             const SizedBox(height: 10),
-            ElevatedButton(onPressed: _signOut, child: Text("Sign out"))
+            ElevatedButton(onPressed: _signOut, child: Text("Sign out")),
+            const SizedBox(height: 30),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => RegistersPage(),
+                  ));
+                },
+                child: Text("Registers Page"))
           ],
         ),
       ),

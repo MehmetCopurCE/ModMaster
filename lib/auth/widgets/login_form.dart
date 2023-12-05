@@ -18,6 +18,13 @@ class LoginFormState extends State<LoginForm> {
   bool passwordSecure = true;
 
   @override
+  void initState() {
+    _emailController.text = "deneme@gmail.com";
+    _passwordController.text = "123456";
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
