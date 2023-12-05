@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/screens/auth_check.dart';
-import 'auth/screens/login_page.dart';
 import 'firebase_options.dart';
 
 void main() async{
