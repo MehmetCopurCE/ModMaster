@@ -1,14 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_project/Storage/database_helper.dart';
+import 'package:mobile_project/service/database_service.dart';
 import 'package:mobile_project/screens/auth_check.dart';
 import 'firebase_options.dart';
 
-void main() async{
+DatabaseService databaseService = DatabaseService();
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
+  databaseService.syncData();
 }
 
 class MyApp extends StatelessWidget {
@@ -28,4 +32,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

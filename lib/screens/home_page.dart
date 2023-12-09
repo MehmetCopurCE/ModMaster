@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_project/screens/register_list_page.dart';
 import 'package:mobile_project/screens/registers_page.dart';
 import '../auth/screens/login_page.dart';
 
@@ -40,12 +41,22 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(onPressed: _signOut, child: Text("Sign out")),
             const SizedBox(height: 30),
             ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => RegistersPage(),
-                  ));
-                },
-                child: Text("Registers Page"))
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => RegistersPage(),
+                ));
+              },
+              child: Text("Registers Page"),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => RegisterListPage(),
+                ));
+              },
+              child: Text("Registers List Page Database"),
+            ),
           ],
         ),
       ),
