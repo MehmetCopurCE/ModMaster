@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_project/Storage/database_helper.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -11,50 +12,18 @@ class RegisterListPage extends StatefulWidget {
 
 class _RegisterListPageState extends State<RegisterListPage> {
   List<Register> registers = [];
+  DatabaseHelper db = DatabaseHelper.instance;
 
   @override
   void initState() {
     super.initState();
-    _loadRegisters();
+    fetchData();
   }
 
-  Future<void> _loadRegisters() async {
-    Database db = await _getDatabase();
-    List<Register> loadedRegisters = await _getAllRegisters(db);
-
+  Future<void> fetchData() async {
+    List<Register> fetchedRegisters = await db.getAllRegisters();
     setState(() {
-      registers = loadedRegisters;
-    });
-  }
-
-  Future<Database> _getDatabase() async {
-    String path = join(await getDatabasesPath(), 'your_database_name.db');
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: (Database db, int version) async {
-        await db.execute('''
-          CREATE TABLE registers(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            registerAddress TEXT,
-            registerName TEXT,
-            registerValue TEXT,
-            displayName TEXT
-          )
-        ''');
-      },
-    );
-  }
-
-  Future<List<Register>> _getAllRegisters(Database db) async {
-    List<Map<String, dynamic>> maps = await db.query('registers');
-    return List.generate(maps.length, (i) {
-      return Register(
-        registerAddress: maps[i]['registerAddress'],
-        registerName: maps[i]['registerName'],
-        registerValue: maps[i]['registerValue'],
-        displayName: maps[i]['displayName'],
-      );
+      registers = fetchedRegisters;
     });
   }
 

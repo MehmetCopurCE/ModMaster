@@ -39,6 +39,9 @@ dependencies:
   firebase_auth: ^4.13.0
   http: ^1.1.0
   sqflite: ^2.3.0
+  fl_chart: ^0.65.0
+  path_provider: ^2.1.1
+  path: ^1.8.3
 
 
 dev_dependencies:

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_project/screens/chart_page.dart';
 import 'package:mobile_project/screens/register_list_page.dart';
 import 'package:mobile_project/screens/registers_page.dart';
 import '../auth/screens/login_page.dart';
@@ -56,6 +57,15 @@ class _HomePageState extends State<HomePage> {
                 ));
               },
               child: Text("Registers List Page Database"),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ChartPage(),
+                ));
+              },
+              child: Text("Chart Page"),
             ),
           ],
         ),

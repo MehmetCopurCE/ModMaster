@@ -9,29 +9,29 @@ Register registerFromJson(String str) => Register.fromJson(json.decode(str));
 String registerToJson(Register data) => json.encode(data.toJson());
 
 class Register {
-  final String registerAddress;
   final String registerName;
-  final String registerValue;
+  final String registerAddress;
+  final List<int> registerValue;
   final String displayName;
 
   Register({
-    required this.registerAddress,
     required this.registerName,
+    required this.registerAddress,
     required this.registerValue,
     required this.displayName,
   });
 
   factory Register.fromJson(Map<String, dynamic> json) => Register(
-    registerAddress: json["registerAddress"],
-    registerName: json["registerName"],
-    registerValue: json["registerValue"],
-    displayName: json["displayName"],
-  );
+        registerName: json["registerName"],
+        registerAddress: json["registerAddress"],
+        registerValue: List<int>.from(json["registerValue"].map((x) => x)),
+        displayName: json["displayName"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "registerAddress": registerAddress,
-    "registerName": registerName,
-    "registerValue": registerValue,
-    "displayName": displayName,
-  };
+        "registerName": registerName,
+        "registerAddress": registerAddress,
+        "registerValue": List<dynamic>.from(registerValue.map((x) => x)),
+        "displayName": displayName,
+      };
 }
