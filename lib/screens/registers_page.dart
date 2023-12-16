@@ -15,18 +15,24 @@ class _RegistersPageState extends State<RegistersPage> {
 
   Future<void> fetchData() async {
     final response = await http.get(Uri.parse(
-        'https://mobileproject1211-default-rtdb.firebaseio.com/registers.json'));
+        'https://mobileproject1211-default-rtdb.firebaseio.com/registers2.json'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = json.decode(response.body);
 
       List<Register> tempRegisters = [];
 
-      jsonData.forEach((key, value) {
-        List<dynamic> jsonList = value;
-        for (var json in jsonList) {
-          tempRegisters.add(Register.fromJson(json));
-        }
+      jsonData.forEach((key, value) async {
+        // Veriyi Register sınıfına dönüştür
+        Register register = Register(
+          registerName: value["registerName"],
+          registerAddress: value["registerAddress"],
+          registerValue: List<int>.from(value["registerValue"]),
+          displayName: value["displayName"],
+        );
+
+        // Veriyi yerel veritabanına ekle
+        tempRegisters.add(register);
       });
 
       setState(() {
@@ -55,9 +61,11 @@ class _RegistersPageState extends State<RegistersPage> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(registers[index].registerName ?? ''),
-            //subtitle: Text(registers[index].registerValue ?? ''),
+            subtitle: Text(registers[index].displayName ??
+                ''), // Display another property if needed
             trailing: Text(
-              registers[index].registerValue ?? '',
+              "${registers[index].registerValue.join(', ')}" ??
+                  '', // Join the list of doubles
               style: TextStyle(fontSize: 16),
             ),
           );
