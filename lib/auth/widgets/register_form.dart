@@ -1,6 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_project/auth/service/auth_service.dart';
+import 'package:mobile_project/auth/widgets/login_form.dart';
+import 'package:mobile_project/data/register_list.dart';
+import 'package:mobile_project/main.dart';
 import 'package:mobile_project/screens/auth_check.dart';
+import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/widgets/custom_show_alert_message.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -11,6 +16,8 @@ class RegisterForm extends StatefulWidget {
 }
 
 class RegisterFormState extends State<RegisterForm> {
+  AuthService authService = AuthService();
+  FireStoreService fireStoreService = FireStoreService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -139,51 +146,28 @@ class RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  Future<void> goAuthCheck() async {
+  void goAuthCheck() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const AuthCheck()),
     );
   }
 
-  void showErrorMessage(String title, String content) {
-    ShowMessage().showMessage(context, title, content);
-  }
+  // void showErrorMessage(String title, String content) {
+  //   ShowMessage().showMessage(context, title, content);
+  // }
 
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
-
-        await goAuthCheck();
-      } on FirebaseAuthException catch (e) {
-        debugPrint("FirebaseAuthException: $e");
-
-        String errorMessage = '';
-
-        switch (e.code) {
-          case 'weak-password':
-            errorMessage = 'The password provided is too weak.';
-            break;
-          case 'email-already-in-use':
-            errorMessage = 'The account already exists for that email.';
-            break;
-          case 'invalid-email':
-            errorMessage = 'The email address is badly formatted.';
-            break;
-          default:
-            errorMessage = 'Registration failed. Please try again later.';
-        }
-
-        //ShowMessage().showMessage(context, "Registeration Failed", errorMessage);
-        showErrorMessage("Registeration Failed", errorMessage);
+        authService.register(
+            context, _emailController.text, _passwordController.text);
+        setState(() {
+          userEmail = _emailController.text;
+        });
+        goAuthCheck();
       } catch (e) {
-        debugPrint("Error: $e");
-        //ShowMessage().showMessage(context, "Registeration Failed", "Please try again later.");
-        showErrorMessage("Registeration Failed", "Please try again later.");
+        print('Kayıt oluştururken hata: $e');
       }
     }
   }

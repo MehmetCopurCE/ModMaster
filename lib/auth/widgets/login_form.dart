@@ -1,7 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mobile_project/auth/service/auth_service.dart';
+import 'package:mobile_project/service/firestore_service.dart';
+import 'package:mobile_project/service/register_service.dart';
+import 'package:mobile_project/utils/constants.dart';
 import 'package:mobile_project/widgets/custom_show_alert_message.dart';
-import '../../screens/home_page.dart';
+import '../../screens/user_screens/home_page.dart';
+
+String userEmail = '';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -11,9 +18,12 @@ class LoginForm extends StatefulWidget {
 }
 
 class LoginFormState extends State<LoginForm> {
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  FireStoreService fireStoreService = FireStoreService();
+  AuthService authService = AuthService();
 
   bool passwordSecure = true;
 
@@ -133,13 +143,18 @@ class LoginFormState extends State<LoginForm> {
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+        // UserCredential userCredential =
+        //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+        //   email: _emailController.text,
+        //   password: _passwordController.text,
+        // );
 
-        if (userCredential.user != null) {
+        User? user = await authService.login(
+            _emailController.text, _passwordController.text);
+
+        if (user != null) {
+          await secureStorage.write(
+              key: Constants.checkLogin, value: _emailController.text);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
