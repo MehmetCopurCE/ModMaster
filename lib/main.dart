@@ -1,24 +1,30 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_project/Storage/database_helper.dart';
+import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/service/database_service.dart';
 import 'package:mobile_project/screens/auth_check.dart';
+import 'package:mobile_project/service/firestore_service.dart';
+import 'package:mobile_project/service/register_service.dart';
 import 'firebase_options.dart';
 
-DatabaseService databaseService = DatabaseService();
+//DatabaseService databaseService = DatabaseService();
+FireStoreService fireStoreService = FireStoreService();
+RegisterService registerService = RegisterService();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
-  databaseService.syncData();
+  //databaseService.syncData();
+  //fireStoreService.addRegistersToFirestore(registerList);
+  registerService.getRegisterNames(registerList);
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
