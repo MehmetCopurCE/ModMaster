@@ -4,6 +4,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile_project/auth/widgets/login_form.dart';
 import 'package:mobile_project/models/register.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_project/widgets/my_chart.dart';
+import 'package:mobile_project/screens/user_screens/chart_page.dart';
 import 'package:mobile_project/utils/constants.dart';
 
 class RegisterDetailPage extends StatefulWidget {
@@ -21,10 +23,22 @@ class _RegisterDetailPageState extends State<RegisterDetailPage> {
   String email = "";
 
   Future<void> getEmail() async {
-    final newEmail = await secureStorage.read(key: Constants.checkLogin) ?? '';
+    final newEmail = await secureStorage.read(key: Constants.userEmail) ?? '';
     setState(() {
       email = newEmail;
     });
+  }
+
+  List<List<dynamic>> processData(Register register) {
+    List<String> dateList = [];
+    List<int> valueList = [];
+
+    register.registerValue.forEach((e) {
+      dateList.add(formatDateTime(e.date));
+      valueList.add(int.parse(e.value));
+    });
+
+    return [dateList, valueList];
   }
 
   @override
@@ -54,6 +68,8 @@ class _RegisterDetailPageState extends State<RegisterDetailPage> {
           var registerData = snapshot.data!.data() as Map<String, dynamic>;
           Register register = Register.fromJson(registerData);
 
+          List<List<dynamic>> list = processData(register);
+
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -74,6 +90,10 @@ class _RegisterDetailPageState extends State<RegisterDetailPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(height: 16),
+                MyChart(
+                  list: list,
+                  registerName: widget.registerName,
+                ),
                 Expanded(
                   child: ListView.builder(
                     //reverse: false, // Liste sıralamasını ters çevir

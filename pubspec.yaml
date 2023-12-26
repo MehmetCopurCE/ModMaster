@@ -48,6 +48,7 @@ dependencies:
   graphic: ^2.2.1
   quiver: ^3.2.1
   ionicons: ^0.2.2
+  provider: ^6.1.1
 
 
 dev_dependencies:

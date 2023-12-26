@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/data/register_list.dart';
-import 'package:mobile_project/service/database_service.dart';
+import 'package:mobile_project/my_theme.dart';
+import 'package:mobile_project/provider/theme_provider.dart';
 import 'package:mobile_project/screens/auth_check.dart';
 import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/service/register_service.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'screens/main_page.dart';
-import 'screens/user_screens/home_page.dart';
 
 //DatabaseService databaseService = DatabaseService();
 FireStoreService fireStoreService = FireStoreService();
@@ -19,6 +20,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
+  var collection = FirebaseFirestore.instance.collection('users');
+  var snapshots = await collection.get();
+  for (var doc in snapshots.docs) {
+    await doc.reference.delete();
+  }
   //databaseService.syncData();
   //fireStoreService.addRegistersToFirestore(registerList);
   registerService.getRegisterNames(registerList);
@@ -28,15 +34,18 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const AuthCheck(),
-    );
-  }
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        builder: (context, _) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: MyThemes.lightTheme,
+            darkTheme: MyThemes.darkTheme,
+            themeMode: themeProvider.themeMode,
+            home: const AuthCheck(),
+          );
+        },
+      );
 }

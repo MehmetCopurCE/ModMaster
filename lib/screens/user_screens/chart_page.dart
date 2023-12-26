@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphic/graphic.dart';
 import 'package:mobile_project/utils/constants.dart';
+import 'package:quiver/iterables.dart';
 
-import '../../widgets/line_chart_widget.dart';
-
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mobile_project/auth/widgets/login_form.dart';
 import 'package:mobile_project/models/register.dart';
 import 'package:intl/intl.dart';
 
@@ -27,10 +24,22 @@ class _ChartPageState extends State<ChartPage> {
   String email = "";
 
   Future<void> getEmail() async {
-    final newEmail = await secureStorage.read(key: Constants.checkLogin) ?? '';
+    final newEmail = await secureStorage.read(key: Constants.userEmail) ?? '';
     setState(() {
       email = newEmail;
     });
+  }
+
+  List<List<dynamic>> processData(Register register) {
+    List<String> dateList = [];
+    List<int> valueList = [];
+
+    register.registerValue.forEach((e) {
+      dateList.add(formatDateTime(e.date));
+      valueList.add(int.parse(e.value));
+    });
+
+    return [dateList, valueList];
   }
 
   @override
@@ -47,6 +56,11 @@ class _ChartPageState extends State<ChartPage> {
           .doc(widget.registerName)
           .snapshots(),
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         if (!snapshot.hasData || snapshot.data == null) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -67,74 +81,76 @@ class _ChartPageState extends State<ChartPage> {
           Register register = Register.fromJson(registerData);
           print("Parsed Register: $register");
 
-          List<String> dateList = [];
-          List<String> valueList = [];
+          List<List<dynamic>> list = processData(register);
 
-          register.registerValue.forEach((e) {
-            dateList.add(formatDateTime(e.date));
-            valueList.add(e.value);
-          });
-
-          List<List<dynamic>> list = [dateList, valueList];
-
-          return Chart(
-            data: list,
-            variables: {
-              'time': Variable(
-                accessor: (List datum) => datum[0] as String,
-                scale: OrdinalScale(inflate: true, tickCount: 6),
-              ),
-              'value': Variable(
-                accessor: (List datum) => datum[1] as int,
-                scale: LinearScale(
-                  max: 800,
-                  min: 0,
-                  formatter: (v) => '${v.toInt()} W',
+          return Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 300,
+                child: Chart(
+                  data: zip(list).toList(),
+                  variables: {
+                    'time': Variable(
+                      accessor: (List datum) => datum[0] as String,
+                      scale: OrdinalScale(inflate: true, tickCount: 6),
+                    ),
+                    'value': Variable(
+                      accessor: (List datum) => datum[1] as int,
+                      scale: LinearScale(
+                        max: 800,
+                        min: 0,
+                        formatter: (v) => '${v.toInt()} W',
+                      ),
+                    ),
+                  },
+                  marks: [
+                    // Add this line with your desired marks configuration
+                    LineMark(
+                      shape: ShapeEncode(value: BasicLineShape(smooth: true)),
+                    )
+                  ],
+                  axes: [
+                    Defaults.horizontalAxis,
+                    Defaults.verticalAxis,
+                  ],
+                  selections: {
+                    'tooltipMouse': PointSelection(
+                      on: {GestureType.hover},
+                      devices: {PointerDeviceKind.mouse},
+                      dim: Dim.x,
+                    ),
+                    'tooltipTouch': PointSelection(
+                      on: {
+                        GestureType.scaleUpdate,
+                        GestureType.tapDown,
+                        GestureType.longPressMoveUpdate
+                      },
+                      devices: {PointerDeviceKind.touch},
+                      dim: Dim.x,
+                    ),
+                  },
+                  tooltip: TooltipGuide(
+                    followPointer: [true, true],
+                    align: Alignment.topLeft,
+                  ),
+                  crosshair: CrosshairGuide(
+                    followPointer: [false, true],
+                  ),
+                  annotations: [
+                    RegionAnnotation(
+                      values: ['07:30', '10:00'],
+                      color: const Color.fromARGB(120, 255, 173, 177),
+                    ),
+                    RegionAnnotation(
+                      values: ['17:30', '21:15'],
+                      color: const Color.fromARGB(120, 255, 173, 177),
+                    ),
+                  ],
                 ),
               ),
-            },
-            marks: [
-              // Add this line with your desired marks configuration
-              LineMark(
-                shape: ShapeEncode(value: BasicLineShape(smooth: true)),
-              )
-            ],
-            axes: [
-              Defaults.horizontalAxis,
-              Defaults.verticalAxis,
-            ],
-            selections: {
-              'tooltipMouse': PointSelection(
-                on: {GestureType.hover},
-                devices: {PointerDeviceKind.mouse},
-                dim: Dim.x,
-              ),
-              'tooltipTouch': PointSelection(
-                on: {
-                  GestureType.scaleUpdate,
-                  GestureType.tapDown,
-                  GestureType.longPressMoveUpdate
-                },
-                devices: {PointerDeviceKind.touch},
-                dim: Dim.x,
-              ),
-            },
-            tooltip: TooltipGuide(
-              followPointer: [true, true],
-              align: Alignment.topLeft,
-            ),
-            crosshair: CrosshairGuide(
-              followPointer: [false, true],
-            ),
-            annotations: [
-              RegionAnnotation(
-                values: ['07:30', '10:00'],
-                color: const Color.fromARGB(120, 255, 173, 177),
-              ),
-              RegionAnnotation(
-                values: ['17:30', '21:15'],
-                color: const Color.fromARGB(120, 255, 173, 177),
-              ),
+              const SizedBox(height: 8),
+              Text(widget.registerName)
             ],
           );
         } catch (e) {

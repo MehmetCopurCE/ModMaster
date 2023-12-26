@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_project/widgets/custom_show_alert_message.dart';
+import 'package:mobile_project/utils/custom_show_alert_message.dart';
 import 'package:mobile_project/auth/widgets/forgot_password_form.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -75,7 +75,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/images/img_reset_password.png", width: 100),
+                  Image.asset("assets/images/img_reset_password.png",
+                      width: 100),
                   const Text(
                     "Reset Password?",
                     style: TextStyle(

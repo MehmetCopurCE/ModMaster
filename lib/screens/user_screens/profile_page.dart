@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_project/auth/screens/login_page.dart';
@@ -7,7 +6,6 @@ import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/widgets/edit_item.dart';
 import 'package:mobile_project/widgets/info_card.dart';
 
-import '../../widgets/line_chart_widget.dart';
 import '../../widgets/setting_item.dart';
 
 class ProfilePage extends StatefulWidget {

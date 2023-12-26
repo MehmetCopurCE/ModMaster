@@ -24,7 +24,7 @@ class RegistersPageState extends State<RegistersPage> {
   String email = "";
 
   Future<void> getEmail() async {
-    final newEmail = await secureStorage.read(key: Constants.checkLogin) ?? '';
+    final newEmail = await secureStorage.read(key: Constants.userEmail) ?? '';
     setState(() {
       email = newEmail;
     });
@@ -45,13 +45,6 @@ class RegistersPageState extends State<RegistersPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registers'),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         fireStoreService.updateAllRegistersInBatch();
-        //       },
-        //       icon: const Icon(Icons.refresh))
-        // ],
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
@@ -61,6 +54,12 @@ class RegistersPageState extends State<RegistersPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text('Register Yok'),
             );
           }
 

@@ -14,7 +14,7 @@ class FireStoreService {
 
   Future<void> addRegistersToFirestore(List<Map<String, dynamic>> registerList,
       String baseCollectionName) async {
-    bool isFirst = await checkIsFirst();
+    bool isFirst = await checkIsFirst(baseCollectionName);
     final collectionName = '$baseCollectionName-registers';
 
     try {
@@ -26,7 +26,7 @@ class FireStoreService {
           // Firestore'da belgeyi eklemek
           await registersCollection.doc(register['registerName']).set(register);
         }
-        await setFirst("false");
+        await setFirst(baseCollectionName, "false");
 
         debugPrint("Register'lar başarıyla Firestore'a eklendi.");
       } else {
@@ -44,14 +44,16 @@ class FireStoreService {
     });
   }
 
-  Future<bool> checkIsFirst() async {
-    String result = await secureStorage.read(key: Constants.isFirst) ?? 'true';
+  Future<bool> checkIsFirst(String email) async {
+    String result =
+        await secureStorage.read(key: '$email-${Constants.isFirst}') ?? 'true';
     return result == "true";
   }
 
-  Future<void> setFirst(String value) async {
+  Future<void> setFirst(String email, String value) async {
     try {
-      await secureStorage.write(key: Constants.isFirst, value: value);
+      await secureStorage.write(
+          key: '$email-${Constants.isFirst}', value: value);
       debugPrint('IsFirst setted successfully');
     } catch (e) {
       debugPrint("Error when setting IsFirst set");

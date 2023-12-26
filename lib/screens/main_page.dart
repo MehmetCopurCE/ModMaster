@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_project/screens/user_screens/example_charts.dart';
+import 'package:mobile_project/screens/user_screens/chart_page.dart';
 import 'package:mobile_project/screens/user_screens/profile_page.dart';
 import 'package:mobile_project/screens/user_screens/settings_page.dart';
 import 'package:mobile_project/screens/user_screens/home_page.dart';
@@ -39,7 +39,9 @@ class _BottomNavyState extends State<BottomNavy> {
   Widget? page() {
     if (currentIndex == 0) {
       title = "Charts";
-      return EchartsPage();
+      return ChartPage(
+        registerName: 'Register 0',
+      );
     } else if (currentIndex == 1) {
       title = "Main Page";
       return const HomePage();
@@ -111,8 +113,8 @@ class _BottomNavyState extends State<BottomNavy> {
           BottomNavigationBarItem(
             label: "Profile",
             icon: const Icon(Icons.account_circle),
-            backgroundColor:
-                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            // backgroundColor:
+            //     Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
         ],
       ),

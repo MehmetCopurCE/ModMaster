@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_project/widgets/custom_show_alert_message.dart';
+import 'package:mobile_project/utils/custom_show_alert_message.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
   const ForgotPasswordForm({super.key});
@@ -69,8 +69,8 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: const Text('Send',
-                      style: TextStyle(color: Colors.white)),
+                  child:
+                      const Text('Send', style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -87,7 +87,8 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
       try {
         //await _auth.sendPasswordResetEmail(email: enteredEmail);
         // // E-posta gönderildiğinde başarılı olduğunu kullanıcıya bildirin
-        ShowMessage().showMessage(context, "Şifre Sıfırlama", "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.");
+        ShowMessage().showMessage(context, "Şifre Sıfırlama",
+            "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.");
       } catch (e) {
         print("Error sending password reset email: $e");
         // Hata durumunda kullanıcıya bir hata mesajı gösterin
@@ -109,7 +110,8 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
         //     );
         //   },
         // );
-        ShowMessage().showMessage(context, "Hata", "Şifre sıfırlama bağlantısı gönderilemedi. Lütfen geçerli bir e-posta adresi girin.");
+        ShowMessage().showMessage(context, "Hata",
+            "Şifre sıfırlama bağlantısı gönderilemedi. Lütfen geçerli bir e-posta adresi girin.");
       }
     }
   }
@@ -121,8 +123,8 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
           email: _emailController.text,
         );
 
-        ShowMessage().showMessage(context, "Reset Password Successfully!", "Password reset email sent. Please check your inbox.");
-
+        ShowMessage().showMessage(context, "Reset Password Successfully!",
+            "Password reset email sent. Please check your inbox.");
       } on FirebaseAuthException catch (e) {
         debugPrint("FirebaseAuthException: $e");
 
@@ -139,11 +141,13 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
             errorMessage = 'Password reset failed. Please try again later.';
         }
 
-        ShowMessage().showMessage(context, "Reset Password Failed", errorMessage);
+        ShowMessage()
+            .showMessage(context, "Reset Password Failed", errorMessage);
       } catch (e) {
         debugPrint("Error: $e");
         // Handle other errors here
-        ShowMessage().showMessage(context, "Reset Password Failed", "Please try again later.");
+        ShowMessage().showMessage(
+            context, "Reset Password Failed", "Please try again later.");
       }
     }
   }

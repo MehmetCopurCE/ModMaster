@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/service/firestore_service.dart';
-import 'package:mobile_project/widgets/custom_show_alert_message.dart';
+import 'package:mobile_project/utils/constants.dart';
+import 'package:mobile_project/utils/custom_show_alert_message.dart';
 
 class AuthService {
   FireStoreService fireStoreService = FireStoreService();
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   Future<User?> login(String email, String password) async {
     try {
@@ -16,6 +20,8 @@ class AuthService {
       );
       if (userCredential.user != null) {
         debugPrint('Giriş yapıldı kullanıcı null değil');
+        await secureStorage.write(
+            key: Constants.userEmail, value: userCredential.user!.email);
         fireStoreService.addRegistersToFirestore(registerList, email);
         return userCredential.user;
       } else {
@@ -29,6 +35,9 @@ class AuthService {
   Future<void> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
+      await secureStorage.write(
+          key: Constants.userEmail,
+          value: ''); //Çıkış yapılırsa kayıtlı kullanıcı mailini siliyoruz
       print('Sign out çağırıldı ve çıkış yapıldı');
     } catch (e) {
       print('Oturum kapatma hatası: $e');
@@ -39,13 +48,26 @@ class AuthService {
     ShowMessage().showMessage(context, title, content);
   }
 
-  Future<void> register(
-      BuildContext context, String email, String password) async {
+  Future<void> register(BuildContext context, String email, String password,
+      String displayName, String phoneNumber) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      // Oluşturulan kullanıcı nesnesini al
+      User? user = userCredential.user;
+
+      // Firestore üzerinde kullanıcı profili için bir belge oluştur
+      await FirebaseFirestore.instance.collection('users').doc(email).set({
+        'email': email,
+        'password': password,
+        'displayName': displayName,
+        'phoneNumber': phoneNumber
+        // Diğer özel bilgileri buraya ekleyebilirsiniz.
+      });
+
+      print('Kullanıcı kaydı başarılı: $email');
+      await secureStorage.write(key: Constants.userEmail, value: email);
 
       await fireStoreService.addRegistersToFirestore(registerList, email);
     } on FirebaseAuthException catch (e) {

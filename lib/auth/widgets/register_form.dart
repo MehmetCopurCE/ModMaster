@@ -6,7 +6,7 @@ import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/main.dart';
 import 'package:mobile_project/screens/auth_check.dart';
 import 'package:mobile_project/service/firestore_service.dart';
-import 'package:mobile_project/widgets/custom_show_alert_message.dart';
+import 'package:mobile_project/utils/custom_show_alert_message.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -19,7 +19,10 @@ class RegisterFormState extends State<RegisterForm> {
   AuthService authService = AuthService();
   FireStoreService fireStoreService = FireStoreService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _checkPasswordController =
       TextEditingController();
@@ -58,12 +61,42 @@ class RegisterFormState extends State<RegisterForm> {
                 //   ],
                 // ),
                 TextFormField(
+                  controller: _userNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Username',
+                    prefixIcon: Icon(Icons.account_circle),
+                  ),
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your username';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Email',
                     prefixIcon: Icon(Icons.mail),
                   ),
                   keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone Number',
+                    prefixIcon: Icon(Icons.phone),
+                  ),
+                  keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
@@ -161,10 +194,12 @@ class RegisterFormState extends State<RegisterForm> {
     if (_formKey.currentState!.validate()) {
       try {
         authService.register(
-            context, _emailController.text, _passwordController.text);
-        setState(() {
-          userEmail = _emailController.text;
-        });
+          context,
+          _emailController.text,
+          _passwordController.text,
+          _userNameController.text,
+          _phoneController.text,
+        );
         goAuthCheck();
       } catch (e) {
         print('Kayıt oluştururken hata: $e');
