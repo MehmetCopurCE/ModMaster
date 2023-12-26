@@ -2,12 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile_project/auth/service/auth_service.dart';
+import 'package:mobile_project/screens/user_screens/main_page.dart';
 import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/service/register_service.dart';
 import 'package:mobile_project/utils/constants.dart';
 import 'package:mobile_project/widgets/custom_show_alert_message.dart';
-import '../../screens/user_screens/home_page.dart';
-
+import '../../screens/user_screens/main_page.dart';
+import 'package:mobile_project/screens/user_screens/main_page.dart';
 String userEmail = '';
 
 class LoginForm extends StatefulWidget {
@@ -157,7 +158,7 @@ class LoginFormState extends State<LoginForm> {
               key: Constants.checkLogin, value: _emailController.text);
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => BottomNavy()),
           );
         } else {
           //_showErrorSnackbar('Login failed. Check your email and password.');
