@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/screens/user_screens/chart_page.dart';
 import 'package:mobile_project/screens/user_screens/registers_page.dart';
-import 'package:mobile_project/screens/user_screens/main_page.dart'; // Import the MainPage
+import 'package:mobile_project/screens/main_page.dart'; // Import the MainPage
 import '../../auth/screens/login_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
 
   // Function to navigate to MainPage
 
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -45,7 +44,6 @@ class _HomePageState extends State<HomePage> {
             child: const Text("Registers"),
           ),
           const SizedBox(height: 30),
-
         ],
       ),
     );

@@ -6,7 +6,7 @@ import 'package:mobile_project/screens/auth_check.dart';
 import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/service/register_service.dart';
 import 'firebase_options.dart';
-import 'screens/user_screens/main_page.dart';
+import 'screens/main_page.dart';
 import 'screens/user_screens/home_page.dart';
 
 //DatabaseService databaseService = DatabaseService();
