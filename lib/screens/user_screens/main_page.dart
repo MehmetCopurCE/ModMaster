@@ -8,20 +8,6 @@ import 'package:mobile_project/screens/user_screens/home_page.dart';
 import '../../utils/constants.dart';
 import 'package:mobile_project/screens/user_screens/main_page.dart';
 
-/*class MainPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          'This is the Main Page',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-} */
-
 class BottomNavy extends StatefulWidget {
   const BottomNavy({Key? key}) : super(key: key);
 
@@ -32,6 +18,7 @@ class BottomNavy extends StatefulWidget {
 class _BottomNavyState extends State<BottomNavy> {
   String title = "Main Page";
   int currentIndex = 1;
+
   void onTopItem(int index) {
     setState(() {
       currentIndex = index;
@@ -45,42 +32,17 @@ class _BottomNavyState extends State<BottomNavy> {
         title = "Profile";
       }
     });
-
-
-    if (currentIndex == 1) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => BottomNavy()),
-      );
-    }
   }
-
 
   Widget? page() {
     if (currentIndex == 0) {
-      title = "Charts";
       return EchartsPage();
     } else if (currentIndex == 1) {
-      title = "Main Page";
       return HomePage();
     } else if (currentIndex == 2) {
-      title = "Settings";
       return SettingsPage();
     } else {
-      title = "Profile";
-      return const DefaultTabController(
-        length: 2,
-        child: Column(
-          children: [
-            TabBar(
-              tabs: [
-                Tab(text: 'Main Device'),
-                Tab(text: 'Modbus'),
-              ],
-            ),
-          ],
-        ),
-      );
+      return const ProfilePage();
     }
   }
 
@@ -122,13 +84,19 @@ class _BottomNavyState extends State<BottomNavy> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            label: "Settings",
-            icon: Icon(Icons.settings),
+            label: "Charts",
+            icon: Icon(Icons.bar_chart),
             backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
+
           BottomNavigationBarItem(
             label: "Main Page",
             icon: Icon(Icons.home),
+            backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+          ),
+          BottomNavigationBarItem(
+            label: "Settings",
+            icon: Icon(Icons.settings),
             backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
           BottomNavigationBarItem(
@@ -136,11 +104,7 @@ class _BottomNavyState extends State<BottomNavy> {
             icon: Icon(Icons.person),
             backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
-          BottomNavigationBarItem(
-            label: "Charts",
-            icon: Icon(Icons.bar_chart),
-            backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-          ),
+
         ],
       ),
     );

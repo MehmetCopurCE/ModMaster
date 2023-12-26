@@ -16,9 +16,9 @@ class AuthCheck extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            return BottomNavy();
-          } else {
             return LoginPage();
+          } else {
+            return BottomNavy();
           }
         },
       ),
