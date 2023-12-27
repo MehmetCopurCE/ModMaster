@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,15 +11,14 @@ class FireStoreService {
   // final CollectionReference registersCollection =
   //     FirebaseFirestore.instance.collection('registers');
 
-  Future<void> addRegistersToFirestore(List<Map<String, dynamic>> registerList,
-      String baseCollectionName) async {
+  Future<void> addRegistersToFirestore(List<Map<String, dynamic>> registerList, String baseCollectionName) async {
     bool isFirst = await checkIsFirst(baseCollectionName);
     final collectionName = '$baseCollectionName-registers';
+    print('isFirst: $isFirst');
 
     try {
       if (isFirst) {
-        final CollectionReference registersCollection =
-            FirebaseFirestore.instance.collection(collectionName);
+        final CollectionReference registersCollection = FirebaseFirestore.instance.collection(collectionName);
 
         for (var register in registerList) {
           // Firestore'da belgeyi eklemek
@@ -45,15 +43,13 @@ class FireStoreService {
   }
 
   Future<bool> checkIsFirst(String email) async {
-    String result =
-        await secureStorage.read(key: '$email-${Constants.isFirst}') ?? 'true';
+    String result = await secureStorage.read(key: '$email-${Constants.isFirst}') ?? 'true';
     return result == "true";
   }
 
   Future<void> setFirst(String email, String value) async {
     try {
-      await secureStorage.write(
-          key: '$email-${Constants.isFirst}', value: value);
+      await secureStorage.write(key: '$email-${Constants.isFirst}', value: value);
       debugPrint('IsFirst setted successfully');
     } catch (e) {
       debugPrint("Error when setting IsFirst set");
@@ -70,8 +66,7 @@ class FireStoreService {
   Future<void> updateAllRegistersInBatch(String collectionName) async {
     try {
       WriteBatch batch = FirebaseFirestore.instance.batch();
-      final CollectionReference registersCollection =
-          FirebaseFirestore.instance.collection(collectionName);
+      final CollectionReference registersCollection = FirebaseFirestore.instance.collection(collectionName);
 
       for (String registerName in registerNames) {
         DocumentReference docRef = registersCollection.doc(registerName);
@@ -80,12 +75,11 @@ class FireStoreService {
         DocumentSnapshot documentSnapshot = await docRef.get();
 
         // Firestore belgesinden registerValue alanını al
-        List<dynamic> currentRegisterValue =
-            documentSnapshot['registerValue'] ?? [];
+        List<dynamic> currentRegisterValue = documentSnapshot['registerValue'] ?? [];
 
         // Yeni date ve value çiftini oluştur
         var newDate = DateTime.now();
-        var newValue = Random().nextInt(300);
+        var newValue = Random().nextInt(500);
         var newValueMap = {"date": newDate, "value": newValue};
 
         // Mevcut registerValue listesine yeni çifti ekle
@@ -104,44 +98,28 @@ class FireStoreService {
     }
   }
 
-  // Future<void> addInitialValue2(String registerName) async {
-  //   try {
-  //     // Firestore'dan mevcut belgeyi al
-  //     DocumentSnapshot documentSnapshot =
-  //         await registersCollection.doc(registerName).get();
+  Future<Map<String, dynamic>> getUserDetailsByEmail(String email) async {
+    try {
+      final userDocument = await FirebaseFirestore.instance.collection('users').doc(email).get();
 
-  //     // Firestore belgesinden registerValue alanını al
-  //     List<dynamic> currentRegisterValue =
-  //         documentSnapshot['registerValue'] ?? [];
+      if (userDocument.exists) {
+        return userDocument.data() as Map<String, dynamic>;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      print('Error fetching user details: $e');
+      return {};
+    }
+  }
 
-  //     // Yeni date ve value çiftini oluştur
-  //     var newDate = DateTime.now();
-  //     var newValue = Random().nextInt(300);
-  //     var newValueMap = {"date": newDate, "value": newValue};
-
-  //     // Mevcut registerValue listesine yeni çifti ekle
-  //     currentRegisterValue.add(newValueMap);
-
-  //     // Firestore'da güncelleme yap
-  //     await registersCollection
-  //         .doc(registerName)
-  //         .update({'registerValue': currentRegisterValue});
-
-  //     print("İlk değer başarıyla eklendi.");
-  //   } catch (e) {
-  //     print("Hata oluştu: $e");
-  //   }
-  // }
-
-  ///Bu registerlara tek tek yeni değer yazıyor
-  // Future<void> updateAllRegisters() async {
-  //   try {
-  //     for (String registerName in registerNames) {
-  //       await addInitialValue2(registerName);
-  //     }
-  //     debugPrint('Tüm registerlara yeni değer eklendi');
-  //   } catch (e) {
-  //     debugPrint('Tüm registerlar güncellenemedi error: $e');
-  //   }
-  // }
+  Future<void> updateUserDetails(String documentId, Map<String, dynamic> updatedData) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(documentId).update(updatedData);
+      print('Kullanıcı bilgileri güncellendi');
+    } catch (e) {
+      print('Kullanıcı bilgileri güncellenirken hata oluştu: $e');
+      // Hata durumunda kullanıcıya bilgi verebilir veya başka bir işlem yapabilirsiniz.
+    }
+  }
 }

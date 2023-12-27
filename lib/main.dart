@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/data/register_list.dart';
@@ -20,11 +19,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
-  var collection = FirebaseFirestore.instance.collection('users');
-  var snapshots = await collection.get();
-  for (var doc in snapshots.docs) {
-    await doc.reference.delete();
-  }
   //databaseService.syncData();
   //fireStoreService.addRegistersToFirestore(registerList);
   registerService.getRegisterNames(registerList);

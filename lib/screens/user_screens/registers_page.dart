@@ -46,53 +46,53 @@ class RegistersPageState extends State<RegistersPage> {
       appBar: AppBar(
         title: const Text('Registers'),
       ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection('$email-registers')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+      // body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      //   stream: FirebaseFirestore.instance
+      //       .collection('$email-registers')
+      //       .snapshots(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const Center(
+      //         child: CircularProgressIndicator(),
+      //       );
+      //     }
 
-          if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Text('Register Yok'),
-            );
-          }
+      //     if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+      //       return Center(
+      //         child: Text('Register Yok'),
+      //       );
+      //     }
 
-          // "registers" koleksiyonundaki tüm belgeleri al
-          var registers = snapshot.data!.docs;
+      //     // "registers" koleksiyonundaki tüm belgeleri al
+      //     var registers = snapshot.data!.docs;
 
-          return ListView.builder(
-            itemCount: registers.length,
-            itemBuilder: (context, index) {
-              var registerData =
-                  registers[index].data() as Map<String, dynamic>;
+      //     return ListView.builder(
+      //       itemCount: registers.length,
+      //       itemBuilder: (context, index) {
+      //         var registerData =
+      //             registers[index].data() as Map<String, dynamic>;
 
-              // Register nesnesini oluştur
-              Register register = Register.fromJson(registerData);
+      //         // Register nesnesini oluştur
+      //         Register register = Register.fromJson(registerData);
 
-              // Register'ın son değerini al
-              RegisterValue latestValue = register.registerValue.last;
+      //         // Register'ın son değerini al
+      //         RegisterValue latestValue = register.registerValue.last;
 
-              return ListTile(
-                title: Text(register.registerName),
-                subtitle: Text(
-                    'Last Date: ${formatDateTime(latestValue.date)} - Last Value: ${latestValue.value}'),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        RegisterDetailPage(registerName: register.registerName),
-                  ));
-                },
-              );
-            },
-          );
-        },
-      ),
+      //         return ListTile(
+      //           title: Text(register.registerName),
+      //           subtitle: Text(
+      //               'Last Date: ${formatDateTime(latestValue.date)} - Last Value: ${latestValue.value}'),
+      //           onTap: () {
+      //             Navigator.of(context).push(MaterialPageRoute(
+      //               builder: (context) =>
+      //                   RegisterDetailPage(registerName: register.registerName),
+      //             ));
+      //           },
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
     );
   }
 }

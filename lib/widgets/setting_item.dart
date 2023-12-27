@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 import 'forward_button.dart';
 
@@ -11,6 +9,8 @@ class SettingItem extends StatelessWidget {
   final IconData icon;
   final Function() onTap;
   final String? value;
+  final bool isEditiable;
+
   const SettingItem({
     super.key,
     required this.title,
@@ -19,6 +19,7 @@ class SettingItem extends StatelessWidget {
     required this.icon,
     required this.onTap,
     this.value,
+    required this.isEditiable,
   });
 
   @override
@@ -42,6 +43,7 @@ class SettingItem extends StatelessWidget {
           const SizedBox(width: 20),
           Text(
             title,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -50,17 +52,20 @@ class SettingItem extends StatelessWidget {
           const Spacer(),
           value != null
               ? Text(
-            value!,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ),
-          )
+                  value!,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                )
               : const SizedBox(),
           const SizedBox(width: 20),
-          ForwardButton(
-            onTap: onTap,
-          ),
+          if (!isEditiable)
+            ForwardButton(
+              onTap: onTap,
+            )
+          else
+            IconButton(onPressed: onTap, icon: Icon(Icons.edit))
         ],
       ),
     );

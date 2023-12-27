@@ -31,6 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
               iconColor: Colors.blue,
               icon: Ionicons.wifi,
               onTap: () {},
+              isEditiable: false,
             ),
             const SizedBox(height: 20),
             SettingItem(
@@ -40,6 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
               iconColor: Colors.green,
               value: "English",
               onTap: () {},
+              isEditiable: false,
             ),
             const SizedBox(height: 20),
             SettingItem(
@@ -48,6 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
               bgColor: Colors.blue.shade50,
               iconColor: Colors.blue,
               onTap: () {},
+              isEditiable: false,
             ),
             const SizedBox(height: 20),
             SettingSwitch(
@@ -57,8 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
               iconColor: Colors.yellow,
               value: themeProvider.isDarkMode,
               onTap: (value) {
-                final provider =
-                    Provider.of<ThemeProvider>(context, listen: false);
+                final provider = Provider.of<ThemeProvider>(context, listen: false);
                 provider.toggleTheme(value);
               },
             ),
@@ -69,6 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
               bgColor: Colors.red.shade50,
               iconColor: Colors.red,
               onTap: () {},
+              isEditiable: false,
             ),
           ],
         ),
