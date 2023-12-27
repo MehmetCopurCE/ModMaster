@@ -50,67 +50,67 @@ class _RegisterDetailPageState extends State<RegisterDetailPage> {
       appBar: AppBar(
         title: Text(widget.registerName),
       ),
-      // body: StreamBuilder<DocumentSnapshot>(
-      //   stream: FirebaseFirestore.instance
-      //       .collection('$email-registers')
-      //       .doc(widget.registerName)
-      //       .snapshots(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('$email-registers')
+            .doc(widget.registerName)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-      //     var registerData = snapshot.data!.data() as Map<String, dynamic>;
-      //     Register register = Register.fromJson(registerData);
+          var registerData = snapshot.data!.data() as Map<String, dynamic>;
+          Register register = Register.fromJson(registerData);
 
-      //     List<List<dynamic>> list = processData(register);
+          List<List<dynamic>> list = processData(register);
 
-      //     return Padding(
-      //       padding: const EdgeInsets.all(16.0),
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         children: [
-      //           Text(
-      //             'Last Value: ${register.registerValue.last.value}',
-      //             style: TextStyle(fontSize: 18),
-      //           ),
-      //           const SizedBox(height: 8),
-      //           Text(
-      //             'Last Date: ${formatDateTime(register.registerValue.last.date)}',
-      //             style: TextStyle(fontSize: 18),
-      //           ),
-      //           const SizedBox(height: 8),
-      //           Text(
-      //             'Okunan register değer sayısı: ${register.registerValue.length}',
-      //             style: TextStyle(fontSize: 18),
-      //           ),
-      //           SizedBox(height: 16),
-      //           MyChart(
-      //             list: list,
-      //             registerName: widget.registerName,
-      //           ),
-      //           Expanded(
-      //             child: ListView.builder(
-      //               //reverse: false, // Liste sıralamasını ters çevir
-      //               // physics: BouncingScrollPhysics(), // Kaydırmayı ekler
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Last Value: ${register.registerValue.last.value}',
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Last Date: ${formatDateTime(register.registerValue.last.date)}',
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Okunan register değer sayısı: ${register.registerValue.length}',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 16),
+                MyChart(
+                  list: list,
+                  registerName: widget.registerName,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    //reverse: false, // Liste sıralamasını ters çevir
+                    // physics: BouncingScrollPhysics(), // Kaydırmayı ekler
 
-      //               itemCount: register.registerValue.length,
-      //               itemBuilder: (context, index) {
-      //                 var value = register.registerValue[index];
-      //                 return ListTile(
-      //                   title: Text(formatDateTime(value.date)),
-      //                   subtitle: Text('Value: ${value.value}'),
-      //                 );
-      //               },
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
+                    itemCount: register.registerValue.length,
+                    itemBuilder: (context, index) {
+                      var value = register.registerValue[index];
+                      return ListTile(
+                        title: Text(formatDateTime(value.date)),
+                        subtitle: Text('Value: ${value.value}'),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
