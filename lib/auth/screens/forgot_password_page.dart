@@ -23,8 +23,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       try {
         await _auth.sendPasswordResetEmail(email: enteredEmail);
         // // E-posta gönderildiğinde başarılı olduğunu kullanıcıya bildirin
-        ShowMessage().showMessage(context, "Şifre Sıfırlama",
-            "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.");
+        ShowMessage()
+            .showMessage(context, "Şifre Sıfırlama", "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.");
       } catch (e) {
         print("Error sending password reset email: $e");
         // Hata durumunda kullanıcıya bir hata mesajı gösterin
@@ -46,10 +46,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         //     );
         //   },
         // );
-        ShowMessage().showMessage(context, "Hata",
-            "Şifre sıfırlama bağlantısı gönderilemedi. Lütfen geçerli bir e-posta adresi girin.");
+        ShowMessage().showMessage(context, "Hata", "Şifre sıfırlama bağlantısı gönderilemedi. Lütfen geçerli bir e-posta adresi girin.");
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
   }
 
   @override
@@ -75,8 +80,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/images/img_reset_password.png",
-                      width: 100),
+                  Image.asset("assets/images/img_reset_password.png", width: 100),
                   const Text(
                     "Reset Password?",
                     style: TextStyle(

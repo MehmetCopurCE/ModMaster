@@ -34,6 +34,13 @@ class LoginFormState extends State<LoginForm> {
   }
 
   @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -128,8 +135,7 @@ class LoginFormState extends State<LoginForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: const Text('Login',
-                      style: TextStyle(color: Colors.white)),
+                  child: const Text('Login', style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -148,8 +154,7 @@ class LoginFormState extends State<LoginForm> {
         //   password: _passwordController.text,
         // );
 
-        User? user = await authService.login(
-            _emailController.text, _passwordController.text);
+        User? user = await authService.login(_emailController.text, _passwordController.text);
 
         if (user != null) {
           // await secureStorage.write(
@@ -160,8 +165,7 @@ class LoginFormState extends State<LoginForm> {
           );
         } else {
           //_showErrorSnackbar('Login failed. Check your email and password.');
-          ShowMessage().showMessage(
-              context, "Login Failed", "Check your email and password.");
+          ShowMessage().showMessage(context, "Login Failed", "Check your email and password.");
         }
       } on FirebaseAuthException catch (e) {
         debugPrint("FirebaseAuthException: $e");
@@ -186,8 +190,7 @@ class LoginFormState extends State<LoginForm> {
       } catch (e) {
         debugPrint("Error: $e");
         //_showErrorSnackbar('Login failed. Check your email and password.');
-        ShowMessage().showMessage(
-            context, "Login failed", "Check your email and password.");
+        ShowMessage().showMessage(context, "Login failed", "Check your email and password.");
       }
     }
   }

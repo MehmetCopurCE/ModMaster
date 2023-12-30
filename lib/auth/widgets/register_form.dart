@@ -24,10 +24,20 @@ class RegisterFormState extends State<RegisterForm> {
   final TextEditingController _phoneController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _checkPasswordController =
-      TextEditingController();
+  final TextEditingController _checkPasswordController = TextEditingController();
 
   bool passwordSecure = true;
+
+  @override
+  void dispose() {
+    _userNameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    _checkPasswordController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +146,7 @@ class RegisterFormState extends State<RegisterForm> {
                       return 'Please enter your password';
                     } else if (_checkPasswordController.text.length < 4) {
                       return 'Password cannot be less than 4 character';
-                    } else if (_checkPasswordController.text !=
-                        _passwordController.text) {
+                    } else if (_checkPasswordController.text != _passwordController.text) {
                       return "Passwords do not match!";
                     }
                     return null;
@@ -168,8 +177,7 @@ class RegisterFormState extends State<RegisterForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: const Text('Sign Up',
-                      style: TextStyle(color: Colors.white)),
+                  child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
