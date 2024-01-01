@@ -131,17 +131,15 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   const CircleAvatar(
-                    radius: 40,
-                    child: Icon(
-                      Icons.account_box,
-                      size: 40,
-                    ),
+                    radius: 60,
+                    foregroundImage: AssetImage('assets/images/img_user_woman.png'),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     userDetails['email'],
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 18,
                     ),
                     textAlign: TextAlign.center,
                   ),
