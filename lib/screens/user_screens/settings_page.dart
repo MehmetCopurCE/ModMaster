@@ -30,7 +30,14 @@ class _SettingsPageState extends State<SettingsPage> {
               bgColor: Colors.blue.shade50,
               iconColor: Colors.blue,
               icon: Ionicons.wifi,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context)
+                =>
+                    SettingsPage()
+                    ));
+              },
               isEditiable: false,
             ),
             const SizedBox(height: 20),
@@ -60,7 +67,8 @@ class _SettingsPageState extends State<SettingsPage> {
               iconColor: Colors.yellow,
               value: themeProvider.isDarkMode,
               onTap: (value) {
-                final provider = Provider.of<ThemeProvider>(context, listen: false);
+                final provider = Provider.of<ThemeProvider>(
+                    context, listen: false);
                 provider.toggleTheme(value);
               },
             ),
