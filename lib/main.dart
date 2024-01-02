@@ -9,7 +9,6 @@ import 'package:mobile_project/service/register_service.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
-//DatabaseService databaseService = DatabaseService();
 FireStoreService fireStoreService = FireStoreService();
 RegisterService registerService = RegisterService();
 
@@ -19,8 +18,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
-  //databaseService.syncData();
-  //fireStoreService.addRegistersToFirestore(registerList);
   registerService.getRegisterNames(registerList);
 }
 

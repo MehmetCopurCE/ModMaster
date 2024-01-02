@@ -75,9 +75,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/img_reset_password.png
-    - assets/images/img_login.png
-    - assets/images/img_register.png
+    - assets/images/
 
   #  - images/a_dot_ham.jpeg
 

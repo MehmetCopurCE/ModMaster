@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:mobile_project/auth/screens/forgot_password_page.dart';
 import 'package:mobile_project/auth/screens/login_page.dart';
 import 'package:mobile_project/auth/service/auth_service.dart';
 import 'package:mobile_project/service/firestore_service.dart';
@@ -23,15 +24,14 @@ class _ProfilePageState extends State<ProfilePage> {
   FireStoreService fireStoreService = FireStoreService();
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  final TextEditingController _phoneController = TextEditingController();
+  // final TextEditingController _nameController = TextEditingController();
+  // final TextEditingController _emailController = TextEditingController();
+  // final TextEditingController _passwordController = TextEditingController();
+  // final TextEditingController _phoneController = TextEditingController();
 
   bool isEditing = false;
   Map<String, dynamic> userDetails = {}; // Move userDetails here
-  User? _currentUser; // Define _currentUser as nullable
+  // User? _currentUser; // Define _currentUser as nullable
 
   Future<void> showEditDialog(String fieldName, String currentValue) async {
     TextEditingController _editingController = TextEditingController(text: currentValue);
@@ -53,25 +53,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 onPressed: () {
                   Navigator.of(context).pop(); // Cancel button
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
               TextButton(
                 onPressed: () async {
                   // Update the field in Firestore and Firebase Authentication
-                  if (fieldName == 'displayName') {
+                  if (fieldName == 'Display Name') {
                     await fireStoreService.updateUserDetails(userDetails['email'], {'displayName': _editingController.text});
                     print('User displayName changed successfully!');
                   } else if (fieldName == 'email') {
-                    //TODO Email yenileme işlemleri yapılacak
-                    // Update email in Firebase Authentication
-                    // await _currentUser?.updateEmail(_editingController.text);
-                    // authService.updateEmail(_editingController.text);
-                    // print('authentication da email güncellendi');
-
                     // // Update email in Firestore
                     // await fireStoreService.updateUserDetails(userDetails['email'], {'email': _editingController.text});
                     // authService.signOut();
-                  } else if (fieldName == 'phoneNumber') {
+                  } else if (fieldName == 'Phone Number') {
                     await fireStoreService.updateUserDetails(userDetails['email'], {'phoneNumber': _editingController.text});
                     print('Phone number changed Successfully!');
                   }
@@ -97,49 +91,6 @@ class _ProfilePageState extends State<ProfilePage> {
         content: Text('An error occurred: $e'),
       ));
     }
-  }
-
-//TODO password yenileme işlemleri yapılacak
-  Future<void> showPasswordChangeDialog() async {
-    TextEditingController _passwordController = TextEditingController();
-
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Change Password'),
-          content: TextField(
-            controller: _passwordController,
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: 'Enter new password',
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Cancel button
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () async {
-                // Güncelleme işlemini başlat
-                //await authService.updatePassword(_passwordController.text);
-                // await authService.resetPassword(_passwordController.text);
-                // Kullanıcıya başarı mesajı göster
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Password changed successfully!'),
-                ));
-
-                Navigator.of(context).pop(); // Save button
-              },
-              child: Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Future<Map<String, dynamic>> getUserDetails() async {
@@ -172,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
           return Center(child: Text('Hata oluştu: ${snapshot.error}'));
         } else {
           userDetails = snapshot.data ?? {}; // Update userDetails here
-          _currentUser = FirebaseAuth.instance.currentUser; // Get the current user
+          // _currentUser = FirebaseAuth.instance.currentUser; // Get the current user
 
           return SingleChildScrollView(
             child: Padding(
@@ -180,17 +131,15 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   const CircleAvatar(
-                    radius: 40,
-                    child: Icon(
-                      Icons.account_box,
-                      size: 40,
-                    ),
+                    radius: 60,
+                    foregroundImage: AssetImage('assets/images/img_user_woman.png'),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     userDetails['email'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 18,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -209,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     bgColor: Colors.blue.shade50,
                     iconColor: Colors.blue,
                     onTap: () {
-                      showEditDialog('displayName', userDetails['displayName']);
+                      showEditDialog('Display Name', userDetails['displayName']);
                     },
                     isEditiable: true,
                   ),
@@ -241,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     bgColor: Colors.blue.shade50,
                     iconColor: Colors.blue,
                     onTap: () {
-                      showEditDialog('phoneNumber', userDetails['phoneNumber']);
+                      showEditDialog('Phone Number', userDetails['phoneNumber']);
                     },
                     isEditiable: true,
                   ),
@@ -252,7 +201,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     bgColor: Colors.blue.shade50,
                     iconColor: Colors.blue,
                     onTap: () {
-                      showPasswordChangeDialog();
+                      // showPasswordChangeDialog();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
                     },
                     isEditiable: false,
                   ),
@@ -283,3 +233,46 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
+//TODO password yenileme işlemleri yapılacak
+  // Future<void> showPasswordChangeDialog() async {
+  //   TextEditingController _passwordController = TextEditingController();
+
+  //   await showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Change Password'),
+  //         content: TextField(
+  //           controller: _passwordController,
+  //           obscureText: true,
+  //           decoration: const InputDecoration(
+  //             hintText: 'Enter new password',
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop(); // Cancel button
+  //             },
+  //             child: Text('Cancel'),
+  //           ),
+  //           TextButton(
+  //             onPressed: () async {
+  //               // Güncelleme işlemini başlat
+  //               //await authService.updatePassword(_passwordController.text);
+  //               // await authService.resetPassword(_passwordController.text);
+  //               // Kullanıcıya başarı mesajı göster
+  //               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //                 content: Text('Password changed successfully!'),
+  //               ));
+
+  //               Navigator.of(context).pop(); // Save button
+  //             },
+  //             child: Text('Save'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }

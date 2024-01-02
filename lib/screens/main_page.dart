@@ -83,8 +83,7 @@ class _BottomNavyState extends State<BottomNavy> {
       body: page(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        backgroundColor:
-            Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
         onTap: (value) {
           setState(() {
             onTopItem(value);
@@ -95,20 +94,17 @@ class _BottomNavyState extends State<BottomNavy> {
           BottomNavigationBarItem(
             label: "Chart",
             icon: const Icon(Icons.bar_chart),
-            backgroundColor:
-                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
           BottomNavigationBarItem(
             label: "Home Page",
             icon: const Icon(Icons.home),
-            backgroundColor:
-                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
           BottomNavigationBarItem(
             label: "Settings",
             icon: const Icon(Icons.settings),
-            backgroundColor:
-                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
           BottomNavigationBarItem(
             label: "Profile",

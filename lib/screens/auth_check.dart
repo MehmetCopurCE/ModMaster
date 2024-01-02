@@ -5,8 +5,6 @@ import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/main.dart';
 import 'package:mobile_project/screens/main_page.dart';
 
-import 'user_screens/home_page.dart';
-
 class AuthCheck extends StatelessWidget {
   const AuthCheck({super.key});
 
@@ -16,11 +14,11 @@ class AuthCheck extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Auth durumu bekleniyor.
+          return const Center(child: CircularProgressIndicator()); // Auth durumu bekleniyor.
         } else if (snapshot.hasData) {
           User? user = FirebaseAuth.instance.currentUser;
           String userEmail = user?.email ?? '';
-          print('User Email: ${userEmail}');
+          print('User Email: $userEmail');
 
           fireStoreService.addRegistersToFirestore(registerList, userEmail); // Call startPeriodicUpdate here
 
