@@ -49,6 +49,9 @@ dependencies:
   quiver: ^3.2.1
   ionicons: ^0.2.2
   provider: ^6.1.1
+  modbus: ^0.2.0
+  flutter_riverpod: ^2.4.9
+  fluttertoast: ^8.2.4
 
 
 dev_dependencies:

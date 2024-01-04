@@ -13,4 +13,8 @@ class RegisterService {
       debugPrint('Error when getting registerNames as a list');
     }
   }
+
+  int getRegisterCount(List<Map<String, dynamic>> registerList) {
+    return registerList.length;
+  }
 }

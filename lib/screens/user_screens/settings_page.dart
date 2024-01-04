@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_project/provider/theme_provider.dart';
+import 'package:mobile_project/screens/user_screens/connection_setting_page.dart';
 import 'package:mobile_project/widgets/setting_item.dart';
 import 'package:mobile_project/widgets/setting_switch.dart';
 import 'package:provider/provider.dart';
@@ -31,12 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
               iconColor: Colors.blue,
               icon: Ionicons.wifi,
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context)
-                =>
-                    SettingsPage()
-                    ));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ConnectionSettingsPage()));
               },
               isEditiable: false,
             ),
@@ -51,15 +47,15 @@ class _SettingsPageState extends State<SettingsPage> {
               isEditiable: false,
             ),
             const SizedBox(height: 20),
-            SettingItem(
-              title: "Notifications",
-              icon: Ionicons.notifications,
-              bgColor: Colors.blue.shade50,
-              iconColor: Colors.blue,
-              onTap: () {},
-              isEditiable: false,
-            ),
-            const SizedBox(height: 20),
+            // SettingItem(
+            //   title: "Notifications",
+            //   icon: Ionicons.notifications,
+            //   bgColor: Colors.blue.shade50,
+            //   iconColor: Colors.blue,
+            //   onTap: () {},
+            //   isEditiable: false,
+            // ),
+            // const SizedBox(height: 20),
             SettingSwitch(
               title: "Dark Mode",
               icon: Ionicons.moon,
@@ -67,8 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
               iconColor: Colors.yellow,
               value: themeProvider.isDarkMode,
               onTap: (value) {
-                final provider = Provider.of<ThemeProvider>(
-                    context, listen: false);
+                final provider = Provider.of<ThemeProvider>(context, listen: false);
                 provider.toggleTheme(value);
               },
             ),

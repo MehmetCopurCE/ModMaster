@@ -45,9 +45,7 @@ class RegistersPageState extends State<RegistersPage> {
         title: const Text('Registers'),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection('$email-registers')
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('$email-registers').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -66,8 +64,7 @@ class RegistersPageState extends State<RegistersPage> {
           return ListView.builder(
             itemCount: registers.length,
             itemBuilder: (context, index) {
-              var registerData =
-              registers[index].data() as Map<String, dynamic>;
+              var registerData = registers[index].data() as Map<String, dynamic>;
               Register register = Register.fromJson(registerData);
               RegisterValue latestValue = register.registerValue.last;
 
@@ -76,7 +73,8 @@ class RegistersPageState extends State<RegistersPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 color: Colors.grey[200],
                 child: ListTile(
-                  title: Text(register.registerName,
+                  title: Text(
+                    register.registerName,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
