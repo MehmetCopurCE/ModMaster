@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/screens/user_screens/chart_page.dart';
 import 'package:mobile_project/screens/user_screens/registers_page.dart';
-import 'package:mobile_project/screens/main_page.dart'; // Import the MainPage
+import 'package:mobile_project/screens/main_page.dart'; 
 import '../../auth/screens/login_page.dart';
+import 'package:mobile_project/screens/user_screens/home_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key});
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage> {
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const RegistersPage(),
+                    builder: (context) => RegistersPage(),
                   ));
                 },
                 icon: const Icon(Icons.book),

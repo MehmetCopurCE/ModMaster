@@ -1,23 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:modbus/modbus.dart' as modbus;
 import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/models/write_register.dart';
 import 'package:mobile_project/service/register_service.dart';
 import 'package:mobile_project/utils/constants.dart';
 import 'package:mobile_project/utils/custom_toast_message.dart';
-import 'package:modbus/modbus.dart' as modbus;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class RegisterNotifier extends StateNotifier<List<int>> {
   RegisterNotifier() : super([]) {
-    // Başlangıçta ve ardından belirli bir süre aralığında veri okuma işlemini başlatın
+    // Start reading data initially and then at specific intervals
     startReadingData();
   }
 
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   RegisterService registerService = RegisterService();
   late modbus.ModbusClient client;
-  
-  //TODO Bu yazılacak registerları provider ile kontrol edebiliriz
+
   List<WriteRegister> writeRegisters = [];
 
   String ipAddress = "";
@@ -26,12 +25,11 @@ class RegisterNotifier extends StateNotifier<List<int>> {
   Future<void> startReadingData() async {
     await createClient();
     while (true) {
-      await readData(); // Veri okuma işlemini çağırın ve tamamlanmasını bekleyin
-      await Future.delayed(const Duration(milliseconds: 1000)); // 2 saniye bekleyin
+      await readData();
+      await Future.delayed(const Duration(milliseconds: 1000));
     }
   }
 
-  ///Client bir defa burada oluşturuluyor
   Future<void> createClient() async {
     ipAddress = await getIpAddress();
     portNumber = await getPortNumber();
@@ -40,15 +38,13 @@ class RegisterNotifier extends StateNotifier<List<int>> {
       client = modbus.createTcpClient(ipAddress,
           port: portNumber,
           mode: modbus.ModbusMode.rtu,
-          //timeout: Duration(seconds: 3));
           timeout: Duration(milliseconds: timeout));
-      print('Client oluşturuldu');
+      print('Client created');
     } catch (e) {
-      print('Client oluşturulamadı. Hata: ${e.toString()}');
+      print('Client creation failed. Error: ${e.toString()}');
     }
   }
 
-  ///Modbus veri okuma
   Future<void> readData() async {
     List<int> updatedRegisters = [];
 
@@ -62,38 +58,30 @@ class RegisterNotifier extends StateNotifier<List<int>> {
       int registerAmount = registerService.getRegisterCount(registerList);
       int readRegister = await getReadRegister();
       int interRequestDelay = await getInterRequestDelay();
-      List<int> readedRegisters = [];
+      List<int> readRegisters = [];
       for (int i = 0; i < registerAmount; i += readRegister) {
         List<int> registers = [];
         if (i + readRegister > registerAmount) {
           registers = await client.readHoldingRegisters(i, (registerAmount - i)).timeout(Duration(seconds: 1));
-          //await Future.delayed(Duration(milliseconds: 100));
-          await Future.delayed(Duration(milliseconds: interRequestDelay)); // 2 s¬niye bekleyin
+          await Future.delayed(Duration(milliseconds: interRequestDelay));
         } else {
           registers = await client.readHoldingRegisters(i, readRegister).timeout(Duration(seconds: 1));
-          //await Future.delayed(Duration(milliseconds: 100));
-          await Future.delayed(Duration(milliseconds: interRequestDelay)); // 2 saniye bekleyin
+          await Future.delayed(Duration(milliseconds: interRequestDelay));
         }
-        readedRegisters.addAll(registers);
-        //print('Okunan tag sayısı: ${readedRegisters.length}');
+        readRegisters.addAll(registers);
       }
 
-      updatedRegisters = readedRegisters;
-      // state = updatedRegisters;
-      //updatedRegisters = [];
-      print('Okunan register sayısı: ${updatedRegisters.length}');
+      updatedRegisters = readRegisters;
     } catch (e) {
       updatedRegisters = [];
-      print('Tag okurken hata: ${e.toString()}');
+      print('Error reading data: ${e.toString()}');
     } finally {
       await closeClientConnection();
       state = updatedRegisters;
-      //state = emptyList;
-      print('Bir Modbus okuma döngüsü bitti');
+      print('A Modbus data reading cycle completed');
     }
   }
 
-  /// Kullanıcının girdiği ip address i burada alıyoruz
   Future<String> getIpAddress() async {
     final String ipAddress = await secureStorage.read(key: Constants.connectionIpAddress) ?? "";
     return ipAddress;
@@ -105,7 +93,6 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     return portNumber;
   }
 
-  /// Kullanıcının belirlediği timout süresini burada alıyoruz
   Future<int> getTimeout() async {
     String stringTimeout = await secureStorage.read(key: Constants.connectionTimeout) ?? "";
     int timeout = int.parse(stringTimeout);
@@ -124,23 +111,21 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     return interRequestDelay;
   }
 
-  /// Modbus bağlantı kurma
   Future<void> connectClient() async {
     try {
       await client.connect();
-      print('Client bağlantı kuruldu.');
+      print('Client connected.');
     } catch (e) {
-      print('Client bağlantı kurulamadı. Hata: ${e.toString()}');
+      print('Client connection failed. Error: ${e.toString()}');
     }
   }
 
-  /// Modbus bağlantı kapatma
   Future<void> closeClientConnection() async {
     try {
       await client.close();
-      print('Client bağlantı kapatıldı.');
+      print('Client connection closed.');
     } catch (e) {
-      print('Client bağlantı kapatılamadı. Hata: ${e.toString()}');
+      print('Error closing client connection. Error: ${e.toString()}');
     }
   }
 
@@ -148,15 +133,14 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     try {
       for (var i = 0; i < writeRegisterList.length; i++) {
         await client.writeSingleRegister(writeRegisterList[i].registerAddress, writeRegisterList[i].newValue);
-        print('Veri yazıldı');
-        //writeRegisterList.remove(writeRegisters[i]);
+        print('Data written');
         writeRegisterList.removeWhere((register) => register.id == writeRegisterList[i].id);
-        print('Veri listeden silindi');
-        await Future.delayed(const Duration(milliseconds: 20)); // 2 saniye bekleyin
-        ToastMessage('Yeni değer yazıldı');
+        print('Data removed from the list');
+        await Future.delayed(const Duration(milliseconds: 20));
+        ToastMessage('New value written');
       }
     } catch (e) {
-      print('Tag yazarken hata: ${e.toString()}');
+      print('Error writing data: ${e.toString()}');
     }
   }
 }
