@@ -61,9 +61,10 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
         ),
         title: const Text('Bağlantı Ayarları'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    body: SingleChildScrollView(
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
           ListTile(
             title: const Text('Ip Adresi'),
             subtitle: TextFormField(
@@ -107,6 +108,7 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
               decoration: const InputDecoration(suffixText: ''),
             ),
           ),
+
           ElevatedButton(
             // onPressed: () {
             //   print('IP Adresi: ${_ipAddressController.text}');
@@ -151,6 +153,7 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
           const SizedBox(height: 16.0),
         ],
       ),
+    )
     );
   }
 }
