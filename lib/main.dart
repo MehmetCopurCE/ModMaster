@@ -5,12 +5,14 @@ import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/my_theme.dart';
 import 'package:mobile_project/provider/theme_provider.dart';
 import 'package:mobile_project/screens/auth_check.dart';
+import 'package:mobile_project/service/connection_service.dart';
 import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/service/register_service.dart';
 import 'firebase_options.dart';
 
 FireStoreService fireStoreService = FireStoreService();
 RegisterService registerService = RegisterService();
+ConnectionService connectionService = ConnectionService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +20,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const ProviderScope(child: MyApp()));
-  registerService.getRegisterNames(registerList);
+  // registerService.getRegisterNames(registerList);
+  registerService.createRegisterList(mapRegisterList);
+  connectionService.setConnectionProperties();
+  registerService.getDummyList();
 }
 
 class MyApp extends ConsumerWidget {

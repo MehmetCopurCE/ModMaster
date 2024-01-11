@@ -30,17 +30,17 @@ class FireStoreService {
       } else {
         debugPrint('Registers already added to firestore');
       }
-      startPeriodicUpdate(collectionName);
+      // startPeriodicUpdate(collectionName);
     } catch (e) {
       debugPrint("Hata oluştu: $e");
     }
   }
 
-  void startPeriodicUpdate(String collectionName) {
-    Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      updateAllRegistersInBatch(collectionName);
-    });
-  }
+  // void startPeriodicUpdate(String collectionName) {
+  //   Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+  //     updateAllRegistersInBatch(collectionName);
+  //   });
+  // }
 
   Future<bool> checkIsFirst(String email) async {
     String result = await secureStorage.read(key: '$email-${Constants.isFirst}') ?? 'true';
@@ -63,13 +63,14 @@ class FireStoreService {
   // }
 
   ///Tüm registerlara aynı anda yeni değer yazmamızı sağlıyor
-  Future<void> updateAllRegistersInBatch(String collectionName) async {
+  Future<void> updateAllRegistersInBatch(String email) async {
     try {
       WriteBatch batch = FirebaseFirestore.instance.batch();
+      final collectionName = '$email-registers';
       final CollectionReference registersCollection = FirebaseFirestore.instance.collection(collectionName);
 
-      for (String registerName in registerNames) {
-        DocumentReference docRef = registersCollection.doc(registerName);
+      for (var register in registerList) {
+        DocumentReference docRef = registersCollection.doc(register.registerName);
 
         // Firestore'dan mevcut belgeyi al
         DocumentSnapshot documentSnapshot = await docRef.get();
