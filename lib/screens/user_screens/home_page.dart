@@ -1,84 +1,52 @@
-import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_project/screens/user_screens/chart_page.dart';
-import 'package:mobile_project/screens/user_screens/registers_page.dart';
-import 'package:mobile_project/screens/main_page.dart'; 
-import '../../auth/screens/login_page.dart';
-import 'package:mobile_project/screens/user_screens/home_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_project/provider/register_provider.dart';
+import 'package:mobile_project/screens/user_screens/register_detail_page.dart';
+import 'package:mobile_project/service/register_service.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({Key? key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final registerValues = ref.watch(registerProvider);
 
-class _HomePageState extends State<HomePage> {
-  Future<void> _signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const LoginPage(),
-      ));
-    } catch (e) {
-      debugPrint('Oturum kapatma hatası: $e');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.white, // Change the background color
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Merhaba!',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.indigo, // Change the text color
-                ),
+    if (registerValues.isEmpty)
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    return ListView.builder(
+      itemCount: registerList.length,
+      itemBuilder: (context, index) {
+        return Card(
+          elevation: 5, // Set the elevation for a card effect
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          color: Colors.grey[200],
+          child: ListTile(
+            title: Text(
+              registerList[index].registerName,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'Uygulamaya Hoş Geldiniz',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
+            ),
+            trailing: Text(
+              registerValues[index].toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
-              const SizedBox(height: 40),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => RegistersPage(),
-                  ));
-                },
-                icon: const Icon(Icons.book),
-                label: const Text('Registers'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.indigo, // Change the button color
-                  onPrimary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            ),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => RegisterDetailPage(
+                  registerName: registerList[index].registerName,
                 ),
-              ),
-              const SizedBox(height: 10), // Add some spacing
-              // You can add more buttons if needed
-            ],
+              ));
+            },
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

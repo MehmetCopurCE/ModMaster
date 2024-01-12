@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/screens/user_screens/chart_page.dart';
+import 'package:mobile_project/screens/user_screens/my_chart.dart';
 import 'package:mobile_project/screens/user_screens/profile_page.dart';
+import 'package:mobile_project/screens/user_screens/registers_page.dart';
 import 'package:mobile_project/screens/user_screens/settings_page.dart';
 import 'package:mobile_project/screens/user_screens/home_page.dart';
 
@@ -39,9 +42,7 @@ class _BottomNavyState extends State<BottomNavy> {
   Widget? page() {
     if (currentIndex == 0) {
       title = "Charts";
-      return ChartPage(
-        registerName: 'Register 0',
-      );
+      return ChartPage();
     } else if (currentIndex == 1) {
       title = "Main Page";
       return const HomePage();
@@ -79,6 +80,16 @@ class _BottomNavyState extends State<BottomNavy> {
         //   ),
         // ),
         // ],
+        actions: [
+          if (currentIndex == 1)
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => RegistersPage(),
+                  ));
+                },
+                icon: Icon(Icons.app_registration_rounded))
+        ],
       ),
       body: page(),
       bottomNavigationBar: BottomNavigationBar(

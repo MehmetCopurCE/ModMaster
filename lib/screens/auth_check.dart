@@ -20,7 +20,7 @@ class AuthCheck extends StatelessWidget {
           String userEmail = user?.email ?? '';
           print('User Email: $userEmail');
 
-          fireStoreService.addRegistersToFirestore(registerList, userEmail); // Call startPeriodicUpdate here
+          fireStoreService.addRegistersToFirestore(mapRegisterList, userEmail); // Call startPeriodicUpdate here
 
           return BottomNavy(); // Kullanıcı oturum açtıysa ana ekrana yönlendir.
         } else {
