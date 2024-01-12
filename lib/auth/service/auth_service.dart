@@ -71,7 +71,7 @@ class AuthService {
       if (userCredential.user != null) {
         debugPrint('Giriş yapıldı kullanıcı null değil');
         await secureStorage.write(key: Constants.userEmail, value: userCredential.user!.email);
-        fireStoreService.addRegistersToFirestore(registerList, email);
+        fireStoreService.addRegistersToFirestore(mapRegisterList, email);
         return userCredential.user;
       } else {
         debugPrint('Giriş yapılamadı kullanıcı null geldi');

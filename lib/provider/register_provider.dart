@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_project/data/register_list.dart';
+import 'package:mobile_project/main.dart';
 import 'package:mobile_project/models/write_register.dart';
 import 'package:mobile_project/service/register_service.dart';
 import 'package:mobile_project/utils/constants.dart';
@@ -26,7 +27,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     await createClient();
     while (true) {
       await readData(); // Veri okuma işlemini çağırın ve tamamlanmasını bekleyin
-      await Future.delayed(const Duration(milliseconds: 1000)); // 2 saniye bekleyin
+      await Future.delayed(const Duration(milliseconds: 2000)); // 2 saniye bekleyin
     }
   }
 
@@ -50,6 +51,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
   ///Modbus veri okuma
   Future<void> readData() async {
     List<int> updatedRegisters = [];
+    String userEmail = await getUserEmail();
 
     try {
       await connectClient();
@@ -58,7 +60,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
         await writeTag(writeRegisters);
       }
 
-      int registerAmount = registerService.getRegisterCount(registerList);
+      int registerAmount = registerService.getRegisterCount(mapRegisterList);
       int readRegister = await getReadRegister();
       int interRequestDelay = await getInterRequestDelay();
       List<int> readedRegisters = [];
@@ -86,8 +88,10 @@ class RegisterNotifier extends StateNotifier<List<int>> {
       print('Tag okurken hata: ${e.toString()}');
     } finally {
       await closeClientConnection();
-      state = updatedRegisters;
-      //state = emptyList;
+      final dummyList = registerService.getDummyList();
+      //state = updatedRegisters;
+      state = dummyList;
+      fireStoreService.updateAllRegistersInBatch(userEmail);
       print('Bir Modbus okuma döngüsü bitti');
     }
   }
@@ -121,6 +125,12 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     String stringInterRequestDelay = (await secureStorage.read(key: Constants.connectionInterRequestDelay))!;
     int interRequestDelay = int.parse(stringInterRequestDelay);
     return interRequestDelay;
+  }
+
+  /// Kullanıcının girdiği ip address i burada alıyoruz
+  Future<String> getUserEmail() async {
+    final String userEmail = await secureStorage.read(key: Constants.userEmail) ?? "";
+    return userEmail;
   }
 
   /// Modbus bağlantı kurma
