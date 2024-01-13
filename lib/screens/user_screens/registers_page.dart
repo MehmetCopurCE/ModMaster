@@ -1,46 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_project/auth/widgets/login_form.dart';
 import 'package:mobile_project/models/register.dart';
 import 'package:mobile_project/screens/user_screens/register_detail_page.dart';
+import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/utils/constants.dart';
-import 'package:mobile_project/provider/register_provider.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class RegistersPage extends ConsumerStatefulWidget {
-  late String email = ''; // Define email as an instance variable
-
-  RegistersPage({Key? key}) : super(key: key);
+class RegistersPage extends StatefulWidget {
+  const RegistersPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<RegistersPage> createState() => _RegistersPageState();
+  RegistersPageState createState() => RegistersPageState();
 }
 
-class _RegistersPageState extends ConsumerState<RegistersPage> {
-  late final FlutterSecureStorage secureStorage;
+class RegistersPageState extends State<RegistersPage> {
+  FireStoreService fireStoreService = FireStoreService();
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+
+  String email = "";
+
+  Future<void> getEmail() async {
+    final newEmail = await secureStorage.read(key: Constants.userEmail) ?? '';
+    setState(() {
+      email = newEmail;
+    });
+  }
 
   @override
   void initState() {
-    secureStorage = FlutterSecureStorage();
     getEmail();
     super.initState();
   }
 
+  String formatDateTime(DateTime dateTime) {
+    return DateFormat('HH:mm:ss').format(dateTime);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Read the Riverpod state
-    final registers = ref.read(registerProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registers'),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection('${widget.email}-registers')
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('$email-registers').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -49,28 +54,28 @@ class _RegistersPageState extends ConsumerState<RegistersPage> {
           }
 
           if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
-            return const Center(
+            return Center(
               child: Text('Register Yok'),
             );
           }
 
-          var firestoreRegisters = snapshot.data!.docs;
+          var registers = snapshot.data!.docs;
 
           return ListView.builder(
-            itemCount: firestoreRegisters.length,
+            itemCount: registers.length,
             itemBuilder: (context, index) {
-              var registerData = firestoreRegisters[index].data();
+              var registerData = registers[index].data() as Map<String, dynamic>;
               Register register = Register.fromJson(registerData);
               RegisterValue latestValue = register.registerValue.last;
 
               return Card(
-                elevation: 5,
+                elevation: 5, // Set the elevation for a card effect
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 color: Colors.grey[200],
                 child: ListTile(
                   title: Text(
                     register.registerName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -92,16 +97,5 @@ class _RegistersPageState extends ConsumerState<RegistersPage> {
         },
       ),
     );
-  }
-
-  String formatDateTime(DateTime dateTime) {
-    return DateFormat('HH:mm:ss').format(dateTime);
-  }
-
-  Future<void> getEmail() async {
-    final newEmail = await secureStorage.read(key: Constants.userEmail) ?? '';
-    setState(() {
-      widget.email = newEmail;
-    });
   }
 }
