@@ -27,7 +27,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     await createClient();
     while (true) {
       await readData(); // Veri okuma işlemini çağırın ve tamamlanmasını bekleyin
-      await Future.delayed(const Duration(milliseconds: 2000)); // 2 saniye bekleyin
+      await Future.delayed(const Duration(milliseconds: 5000)); // 2 saniye bekleyin
     }
   }
 
@@ -89,9 +89,9 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     } finally {
       await closeClientConnection();
       final dummyList = registerService.getDummyList();
-      //state = updatedRegisters;
-      state = dummyList;
-      fireStoreService.updateAllRegistersInBatch(userEmail);
+      state = updatedRegisters;
+      //state = dummyList;
+      fireStoreService.updateAllRegistersInBatch2(userEmail, updatedRegisters);
       print('Bir Modbus okuma döngüsü bitti');
     }
   }

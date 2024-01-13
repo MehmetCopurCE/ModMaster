@@ -52,6 +52,7 @@ dependencies:
   modbus: ^0.2.0
   flutter_riverpod: ^2.4.9
   fluttertoast: ^8.2.4
+  uuid: ^4.2.2
 
 
 dev_dependencies:

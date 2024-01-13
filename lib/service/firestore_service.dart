@@ -99,6 +99,53 @@ class FireStoreService {
     }
   }
 
+  Future<void> updateAllRegistersInBatch2(String email, List<int> valueList) async {
+    try {
+      if (valueList.isEmpty) {
+        print('Register Provider dan liste boş geliyor. Firebase e yazma işlemi yapılmadı');
+        return;
+      }
+      WriteBatch batch = FirebaseFirestore.instance.batch();
+      final collectionName = '$email-registers';
+      final CollectionReference registersCollection = FirebaseFirestore.instance.collection(collectionName);
+
+      for (int i = 0; i < valueList.length; i++) {
+        int registerValue = valueList[i];
+
+        if (i < registerList.length) {
+          var register = registerList[i];
+          DocumentReference docRef = registersCollection.doc(register.registerName);
+
+          // Firestore'dan mevcut belgeyi al
+          DocumentSnapshot documentSnapshot = await docRef.get();
+
+          // Firestore belgesinden registerValue alanını al
+          List<dynamic> currentRegisterValue = documentSnapshot['registerValue'] ?? [];
+
+          // Yeni date ve value çiftini oluştur
+          var newDate = DateTime.now();
+          var newValue = registerValue;
+          var newValueMap = {"date": newDate, "value": newValue};
+
+          // Mevcut registerValue listesine yeni çifti ekle
+          currentRegisterValue.add(newValueMap);
+
+          // Batch'e güncelleme işlemini ekle
+          batch.update(docRef, {'registerValue': currentRegisterValue});
+        } else {
+          debugPrint('Invalid index: $i');
+        }
+      }
+
+      // Batch işlemini commit et
+      await batch.commit();
+
+      debugPrint('Tüm registerlara yeni değer eklendi (batch)');
+    } catch (e) {
+      debugPrint('Tüm registerlar güncellenemedi (batch) error: $e');
+    }
+  }
+
   Future<Map<String, dynamic>> getUserDetailsByEmail(String email) async {
     try {
       final userDocument = await FirebaseFirestore.instance.collection('users').doc(email).get();
