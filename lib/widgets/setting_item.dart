@@ -65,7 +65,12 @@ class SettingItem extends StatelessWidget {
               onTap: onTap,
             )
           else
-            IconButton(onPressed: onTap, icon: Icon(Icons.edit))
+            IconButton(
+                onPressed: onTap,
+                icon: Icon(
+                  Icons.edit,
+                  color: Colors.red,
+                ))
         ],
       ),
     );

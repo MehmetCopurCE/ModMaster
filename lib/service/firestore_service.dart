@@ -163,7 +163,11 @@ class FireStoreService {
 
   Future<void> deleteUserFromFireStore(String email) async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(email).delete();
+      // Construct the document reference using the "users" collection and the email as the document ID
+      final DocumentReference userDocRef = FirebaseFirestore.instance.collection('users').doc(email);
+
+      // Delete the document
+      await userDocRef.delete();
       print('User başarılı bir şekilde fireStore dan silindi');
     } catch (e) {
       print('Error fetching user details: $e');

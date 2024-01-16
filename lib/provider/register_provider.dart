@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/main.dart';
 import 'package:mobile_project/models/write_register.dart';
+import 'package:mobile_project/screens/user_screens/home_page.dart';
 import 'package:mobile_project/service/register_service.dart';
 import 'package:mobile_project/utils/constants.dart';
 import 'package:mobile_project/utils/custom_toast_message.dart';
@@ -18,7 +19,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
   RegisterService registerService = RegisterService();
   late modbus.ModbusClient client;
   //TODO Bu yazılacak registerları provider ile kontrol edebiliriz
-  List<WriteRegister> writeRegisters = [];
+  // List<WriteRegister> writeRegisters = [];
 
   String ipAddress = "";
   int portNumber = 502;
@@ -89,9 +90,9 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     } finally {
       await closeClientConnection();
       final dummyList = registerService.getDummyList();
-      //state = updatedRegisters;
-      state = dummyList;
-      fireStoreService.updateAllRegistersInBatch2(userEmail, state);
+      state = updatedRegisters;
+      //state = dummyList;
+      fireStoreService.updateAllRegistersInBatch2(userEmail, updatedRegisters);
       print('Bir Modbus okuma döngüsü bitti');
     }
   }
@@ -159,7 +160,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
         await client.writeSingleRegister(writeRegisterList[i].registerAddress, writeRegisterList[i].newValue);
         print('Veri yazıldı');
         //writeRegisterList.remove(writeRegisters[i]);
-        writeRegisterList.removeWhere((register) => register.id == writeRegisterList[i].id);
+        writeRegisters.removeWhere((register) => register.id == writeRegisterList[i].id);
         print('Veri listeden silindi');
         await Future.delayed(const Duration(milliseconds: 20)); // 0.2 saniye bekleyin
         ToastMessage('Yeni değer yazıldı');

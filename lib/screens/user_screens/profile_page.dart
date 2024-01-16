@@ -48,14 +48,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 hintText: 'Enter new $fieldName',
               ),
             ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Cancel button
                 },
-                child: const Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                ),
               ),
-              TextButton(
+              ElevatedButton(
                 onPressed: () async {
                   // Update the field in Firestore and Firebase Authentication
                   if (fieldName == 'Display Name') {
@@ -77,7 +81,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   Navigator.of(context).pop(); // Save button
                 },
-                child: const Text('Save'),
+                child: Text(
+                  'Save',
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                ),
               ),
             ],
           );

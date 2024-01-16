@@ -58,9 +58,9 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           "Forgot Password?",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
                         ),
                       ),
                     TextButton(
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: Text(
                         hasAccount ? "Create Account" : "Have Account?",
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
                       ),
                     ),
                   ],

@@ -24,8 +24,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   void writeNewValue(String registerAddress, TextEditingController controller) async {
     String id = uuid.v4();
     int enteredValue = int.parse(controller.text);
-    int index = int.parse(registerAddress);
-
+    int index = int.parse(registerAddress) - 400000;
+    print('Register Address : $index');
     final newWrite = WriteRegister(id: id, registerAddress: index, newValue: enteredValue);
     setState(() {
       writeRegisters.add(newWrite);
