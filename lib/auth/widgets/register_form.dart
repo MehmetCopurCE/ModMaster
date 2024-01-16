@@ -208,7 +208,10 @@ class RegisterFormState extends State<RegisterForm> {
           _userNameController.text,
           _phoneController.text,
         );
-        goAuthCheck();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AuthCheck()),
+        );
       } catch (e) {
         print('Kayıt oluştururken hata: $e');
       }

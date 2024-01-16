@@ -4,12 +4,11 @@ import 'package:graphic/graphic.dart';
 import 'package:quiver/iterables.dart';
 import 'package:intl/intl.dart';
 
-class MyChart extends StatelessWidget {
+class MyChartWidget extends StatelessWidget {
   final String registerName;
   final List<List<dynamic>> list;
 
-  const MyChart({Key? key, required this.registerName, required this.list})
-      : super(key: key);
+  const MyChartWidget({Key? key, required this.registerName, required this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +50,7 @@ class MyChart extends StatelessWidget {
                 dim: Dim.x,
               ),
               'tooltipTouch': PointSelection(
-                on: {
-                  GestureType.scaleUpdate,
-                  GestureType.tapDown,
-                  GestureType.longPressMoveUpdate
-                },
+                on: {GestureType.scaleUpdate, GestureType.tapDown, GestureType.longPressMoveUpdate},
                 devices: {PointerDeviceKind.touch},
                 dim: Dim.x,
               ),

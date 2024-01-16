@@ -10,6 +10,11 @@ class ChartPage extends StatefulWidget {
 class _ChartPageState extends State<ChartPage> {
   // List<String> nameList = ['John', 'Jane', 'Doe', 'Alice', 'Bob'];
   Map<String, bool> isOpenMap = {};
+  //   onTap: () {
+  //   setState(() {
+  //     isOpenMap[registerList[index].registerName] = !(isOpenMap[registerList[index].registerName] ?? false);
+  //   });
+  // },
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +27,28 @@ class _ChartPageState extends State<ChartPage> {
               return Column(
                 children: [
                   Card(
-                    elevation: 2,
+                    elevation: 5,
                     margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      side: const BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
                     child: Column(
                       children: [
                         ListTile(
-                          title: Text(registerList[index].registerName),
+                          title: Text(
+                            registerList[index].registerName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          trailing: Icon(
+                            isOpenMap[registerList[index].registerName] ?? false ? Icons.arrow_drop_up_sharp : Icons.arrow_drop_down_sharp,
+                            size: 30,
+                          ),
                           onTap: () {
                             setState(() {
                               isOpenMap[registerList[index].registerName] = !(isOpenMap[registerList[index].registerName] ?? false);

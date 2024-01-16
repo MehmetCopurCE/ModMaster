@@ -13,7 +13,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool hasAccount = true;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,76 +20,63 @@ class _LoginPageState extends State<LoginPage> {
       //   title: Text('Login Page'),
       //   backgroundColor: Colors.white,
       // ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.white, Colors.grey],
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                      hasAccount
-                          ? "assets/images/img_login.png"
-                          : "assets/images/img_register.png",
-                      width: 100),
-                  Text(
-                    hasAccount ? 'Sign In' : "Sign Up",
-                    style: const TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
-                    ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(hasAccount ? "assets/images/img_login.png" : "assets/images/img_register.png", width: 100),
+                Text(
+                  hasAccount ? 'Sign In' : "Sign Up",
+                  style: const TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
                   ),
-                  if (hasAccount)
-                    const Column(
-                      children: [
-                        Text("Email: deneme@gmail.com"),
-                        Text("Password: 123456"),
-                      ],
-                    ),
-                  const SizedBox(height: 20),
-                  hasAccount ? LoginForm() : RegisterForm(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                ),
+                if (hasAccount)
+                  const Column(
                     children: [
-                      if (hasAccount)
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ForgotPasswordPage(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            "Forgot Password?",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ),
+                      Text("Email: deneme@gmail.com"),
+                      Text("Password: 123456"),
+                    ],
+                  ),
+                const SizedBox(height: 20),
+                hasAccount ? LoginForm() : RegisterForm(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (hasAccount)
                       TextButton(
                         onPressed: () {
-                          setState(() {
-                            hasAccount = !hasAccount;
-                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgotPasswordPage(),
+                            ),
+                          );
                         },
-                        child: Text(
-                          hasAccount ? "Create Account" : "Have Account?",
+                        child: const Text(
+                          "Forgot Password?",
                           style: TextStyle(color: Colors.black),
                         ),
                       ),
-                    ],
-                  )
-                ],
-              ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          hasAccount = !hasAccount;
+                        });
+                      },
+                      child: Text(
+                        hasAccount ? "Create Account" : "Have Account?",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),

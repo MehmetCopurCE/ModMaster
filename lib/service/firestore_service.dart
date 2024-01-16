@@ -161,6 +161,44 @@ class FireStoreService {
     }
   }
 
+  Future<void> deleteUserFromFireStore(String email) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(email).delete();
+      print('User başarılı bir şekilde fireStore dan silindi');
+    } catch (e) {
+      print('Error fetching user details: $e');
+    }
+  }
+
+  Future<void> deleteUserRegistersFromFireStore(String email) async {
+    final collectionName = '$email-registers';
+
+    try {
+      // Get the reference to the document or collection you want to delete
+      final collectionReference = FirebaseFirestore.instance.collection(collectionName);
+
+      // Assuming you want to delete the entire collection
+      await deleteCollection(collectionReference);
+
+      print('User başarılı bir şekilde Firestore’dan silindi');
+    } catch (e) {
+      print('Error deleting user registers: $e');
+    }
+  }
+
+// Function to delete an entire Firestore collection
+  Future<void> deleteCollection(CollectionReference collectionReference) async {
+    try {
+      var documents = await collectionReference.get();
+      for (var document in documents.docs) {
+        await document.reference.delete();
+      }
+      print('User Register Collection Firestore dan silindi');
+    } catch (e) {
+      print('HATA, User Register Collection Firestore dan silindi, hata: $e');
+    }
+  }
+
   Future<void> updateUserDetails(String documentId, Map<String, dynamic> updatedData) async {
     try {
       await FirebaseFirestore.instance.collection('users').doc(documentId).update(updatedData);

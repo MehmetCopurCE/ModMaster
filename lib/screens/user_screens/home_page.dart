@@ -21,9 +21,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   final TextEditingController _newValueController = TextEditingController();
   Uuid uuid = const Uuid();
 
-  void writeNewValue(int index, TextEditingController controller) async {
+  void writeNewValue(String registerAddress, TextEditingController controller) async {
     String id = uuid.v4();
     int enteredValue = int.parse(controller.text);
+    int index = int.parse(registerAddress);
 
     final newWrite = WriteRegister(id: id, registerAddress: index, newValue: enteredValue);
     setState(() {
@@ -66,7 +67,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           clipBehavior: Clip.antiAlias,
           child: ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            tileColor: Colors.white,
+            // tileColor: Colors.white,
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => RegisterDetailPage(
@@ -88,7 +89,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.grey[300],
+                    color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -126,7 +127,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         //TODO ekleme işlemleri burada yapılacak
                         TextButton(
                           onPressed: () {
-                            writeNewValue(index, _newValueController);
+                            writeNewValue(registerList[index].registerAddress, _newValueController);
                           },
                           child: const Text('Add'),
                         ),
@@ -136,7 +137,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF9B59B6),
+                primary: Theme.of(context).brightness == Brightness.light ? const Color(0xFF9B59B6) : const Color(0xFF9B59B6).withOpacity(0.5),
               ),
               child: const Text('New Value', style: TextStyle(color: Colors.white)),
             ),

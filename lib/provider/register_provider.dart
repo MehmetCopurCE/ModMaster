@@ -89,9 +89,9 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     } finally {
       await closeClientConnection();
       final dummyList = registerService.getDummyList();
-      state = updatedRegisters;
-      //state = dummyList;
-      fireStoreService.updateAllRegistersInBatch2(userEmail, updatedRegisters);
+      //state = updatedRegisters;
+      state = dummyList;
+      fireStoreService.updateAllRegistersInBatch2(userEmail, state);
       print('Bir Modbus okuma döngüsü bitti');
     }
   }
@@ -161,7 +161,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
         //writeRegisterList.remove(writeRegisters[i]);
         writeRegisterList.removeWhere((register) => register.id == writeRegisterList[i].id);
         print('Veri listeden silindi');
-        await Future.delayed(const Duration(milliseconds: 20)); // 2 saniye bekleyin
+        await Future.delayed(const Duration(milliseconds: 20)); // 0.2 saniye bekleyin
         ToastMessage('Yeni değer yazıldı');
       }
     } catch (e) {
