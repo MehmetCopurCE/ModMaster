@@ -147,7 +147,13 @@ class _MyChartState extends State<MyChart> {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(widget.registerName)
+              Text(
+                widget.registerName,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                ),
+              )
             ],
           );
         } catch (e) {

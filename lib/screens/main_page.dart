@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_project/screens/user_screens/chart_page.dart';
 import 'package:mobile_project/screens/user_screens/my_chart.dart';
 import 'package:mobile_project/screens/user_screens/profile_page.dart';
-import 'package:mobile_project/screens/user_screens/registers_page.dart';
 import 'package:mobile_project/screens/user_screens/settings_page.dart';
 import 'package:mobile_project/screens/user_screens/home_page.dart';
 
@@ -80,16 +79,6 @@ class _BottomNavyState extends State<BottomNavy> {
         //   ),
         // ),
         // ],
-        actions: [
-          if (currentIndex == 1)
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => RegistersPage(),
-                  ));
-                },
-                icon: Icon(Icons.app_registration_rounded))
-        ],
       ),
       body: page(),
       bottomNavigationBar: BottomNavigationBar(

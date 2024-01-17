@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:mobile_project/auth/screens/forgot_password_page.dart';
 import 'package:mobile_project/auth/screens/login_page.dart';
 import 'package:mobile_project/auth/service/auth_service.dart';
+import 'package:mobile_project/screens/auth_check.dart';
 import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/utils/constants.dart';
 import 'package:mobile_project/widgets/edit_item.dart';
@@ -35,7 +36,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> showEditDialog(String fieldName, String currentValue) async {
     TextEditingController _editingController = TextEditingController(text: currentValue);
-
     try {
       await showDialog(
         context: context,
@@ -48,14 +48,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 hintText: 'Enter new $fieldName',
               ),
             ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Cancel button
                 },
-                child: const Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                ),
               ),
-              TextButton(
+              ElevatedButton(
                 onPressed: () async {
                   // Update the field in Firestore and Firebase Authentication
                   if (fieldName == 'Display Name') {
@@ -77,7 +81,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   Navigator.of(context).pop(); // Save button
                 },
-                child: const Text('Save'),
+                child: Text(
+                  'Save',
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                ),
               ),
             ],
           );
@@ -101,10 +108,44 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _signOut() async {
     try {
-      authService.signOut();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const LoginPage(),
-      ));
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              'Log out',
+              textAlign: TextAlign.center,
+            ),
+            content: const Text(
+              'Do you want to log out?',
+              textAlign: TextAlign.center,
+            ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                ),
+              ),
+              //TODO ekleme işlemleri burada yapılacak
+              ElevatedButton(
+                onPressed: () {
+                  authService.signOut();
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AuthCheck()));
+                },
+                child: Text(
+                  'Log out',
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                ),
+              ),
+            ],
+          );
+        },
+      );
     } catch (e) {
       debugPrint('Oturum kapatma hatası: $e');
     }
@@ -212,12 +253,51 @@ class _ProfilePageState extends State<ProfilePage> {
                     icon: Icons.delete,
                     bgColor: Colors.red.shade50,
                     iconColor: Colors.red,
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                              'Delete Account',
+                              textAlign: TextAlign.center,
+                            ),
+                            content: Text('Do you want to delete your account?'),
+                            actionsAlignment: MainAxisAlignment.spaceBetween,
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'Cancel',
+                                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                                ),
+                              ),
+                              //TODO ekleme işlemleri burada yapılacak
+                              ElevatedButton(
+                                onPressed: () {
+                                  authService.deleteUser(userDetails['email']);
+                                  authService.signOut();
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                    builder: (context) => AuthCheck(),
+                                  ));
+                                },
+                                child: Text(
+                                  'Delete',
+                                  style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                     isEditiable: false,
                   ),
                   const SizedBox(height: 30),
                   SettingItem(
-                    title: "log out",
+                    title: "Log out",
                     icon: Ionicons.log_out,
                     bgColor: Colors.blue.shade50,
                     iconColor: Colors.blue,

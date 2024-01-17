@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/service/firestore_service.dart';
+import 'package:mobile_project/service/register_service.dart';
 import 'package:mobile_project/utils/constants.dart';
 import 'package:mobile_project/utils/custom_show_alert_message.dart';
 
@@ -91,7 +92,7 @@ class AuthService {
     }
   }
 
-  Future<void> deleteUser() async {
+  Future<void> deleteUser(String email) async {
     try {
       // Mevcut kullanıcıyı al
       User? user = FirebaseAuth.instance.currentUser;
@@ -100,6 +101,10 @@ class AuthService {
       if (user != null) {
         // Kullanıcıyı sil
         await user.delete();
+        await signOut();
+        await fireStoreService.deleteUserFromFireStore(email);
+        await fireStoreService.deleteUserRegistersFromFireStore(email);
+        await fireStoreService.setFirst(email, 'true');
         print("Hesap başarıyla silindi.");
       } else {
         print("Oturum açan kullanıcı bulunamadı.");

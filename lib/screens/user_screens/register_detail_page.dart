@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile_project/models/register.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_project/screens/user_screens/my_chart.dart';
 import 'package:mobile_project/widgets/my_chart.dart';
 import 'package:mobile_project/utils/constants.dart';
 
@@ -51,10 +52,7 @@ class _RegisterDetailPageState extends State<RegisterDetailPage> {
         title: Text(widget.registerName),
       ),
       body: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('$email-registers')
-            .doc(widget.registerName)
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('$email-registers').doc(widget.registerName).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -87,10 +85,11 @@ class _RegisterDetailPageState extends State<RegisterDetailPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(height: 16),
-                MyChart(
-                  list: list,
-                  registerName: widget.registerName,
-                ),
+                // MyChartWidget(
+                //   list: list,
+                //   registerName: widget.registerName,
+                // ),
+                MyChart(registerName: widget.registerName),
                 Expanded(
                   child: ListView.builder(
                     //reverse: false, // Liste sıralamasını ters çevir
