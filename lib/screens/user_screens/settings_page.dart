@@ -6,6 +6,7 @@ import 'package:mobile_project/screens/user_screens/connection_setting_page.dart
 import 'package:mobile_project/widgets/setting_item.dart';
 import 'package:mobile_project/widgets/setting_switch.dart';
 import 'package:provider/provider.dart';
+import 'help_page.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -86,7 +87,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               icon: Ionicons.help,
               bgColor: Colors.red.shade50,
               iconColor: Colors.red,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HelpPage()));
+              },
               isEditiable: false,
             ),
           ],
