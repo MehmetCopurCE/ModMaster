@@ -59,10 +59,7 @@ class _MyChartState extends State<MyChart> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('$email-registers')
-          .doc(widget.registerName)
-          .snapshots(),
+      stream: FirebaseFirestore.instance.collection('$email-registers').doc(widget.registerName).snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -76,8 +73,7 @@ class _MyChartState extends State<MyChart> {
         }
 
         var registerData = snapshot.data!.data();
-        Register register =
-            Register.fromJson(registerData as Map<String, dynamic>);
+        Register register = Register.fromJson(registerData as Map<String, dynamic>);
         if (registerData == null || registerData is! Map<String, dynamic>) {
           // Handle the case where data is null or not in the expected format
           return Center(
@@ -129,11 +125,7 @@ class _MyChartState extends State<MyChart> {
                       dim: Dim.x,
                     ),
                     'tooltipTouch': PointSelection(
-                      on: {
-                        GestureType.scaleUpdate,
-                        GestureType.tapDown,
-                        GestureType.longPressMoveUpdate
-                      },
+                      on: {GestureType.scaleUpdate, GestureType.tapDown, GestureType.longPressMoveUpdate},
                       devices: {PointerDeviceKind.touch},
                       dim: Dim.x,
                     ),
@@ -169,8 +161,7 @@ class _MyChartState extends State<MyChart> {
           );
         } catch (e) {
           print("Error parsing Register: $e");
-          return Center(
-              child: Text(AppLocalizations.of(context)?.errParsReg ?? ''));
+          return Center(child: Text(AppLocalizations.of(context)?.errParsReg ?? ''));
         }
       },
     );
@@ -179,16 +170,10 @@ class _MyChartState extends State<MyChart> {
   //Date format is localized
 
   String formatDateTime(DateTime dateTime) {
-    final DateFormat formatter =
-        DateFormat.yMd(Localizations.localeOf(context).toString());
-    final String formatted = formatter.format(dateTime);
-    return formatted;
+    return DateFormat('HH:mm:ss').format(dateTime);
   }
 
-  String formatDateTimeHour(DateTime dateTime) {
-    final DateFormat formatter = DateFormat(
-        'dd.MM.yyyy HH:mm', Localizations.localeOf(context).toString());
-    final String formatted = formatter.format(dateTime);
-    return formatted;
+  String formatDateTimeGun(DateTime dateTime) {
+    return DateFormat('dd.MM.yyyy').format(dateTime);
   }
 }

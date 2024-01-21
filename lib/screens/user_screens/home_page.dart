@@ -23,14 +23,12 @@ class _HomePageState extends ConsumerState<HomePage> {
   final TextEditingController _newValueController = TextEditingController();
   Uuid uuid = const Uuid();
 
-  void writeNewValue(
-      String registerAddress, TextEditingController controller) async {
+  void writeNewValue(String registerAddress, TextEditingController controller) async {
     String id = uuid.v4();
     int enteredValue = int.parse(controller.text);
     int index = int.parse(registerAddress) - 400000;
     print('Register Address : $index');
-    final newWrite =
-        WriteRegister(id: id, registerAddress: index, newValue: enteredValue);
+    final newWrite = WriteRegister(id: id, registerAddress: index, newValue: enteredValue);
     setState(() {
       writeRegisters.add(newWrite);
       print('WriteRegisters a eklendi. ');
@@ -49,8 +47,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    
     final registerValues = ref.watch(registerProvider);
 
     if (registerValues.isEmpty)
@@ -72,13 +68,12 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           clipBehavior: Clip.antiAlias,
           child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             // tileColor: Colors.white,
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => RegisterDetailPage(
-                  registerName: registerList[index].registerName,
+                  register: registerList[index],
                 ),
               ));
             },
@@ -123,31 +118,25 @@ class _HomePageState extends ConsumerState<HomePage> {
                       // '${AppLocalizations.of(context)!.newValMsg} ${registerList[index].registerName}',),
 //
 
-                      title: Text(
-                        '${registerList[index].registerName} ${AppLocalizations.of(context)!.newValMsg}'
-
-                      ),
+                      title: Text('${registerList[index].registerName} ${AppLocalizations.of(context)!.newValMsg}'),
 
                       content: TextField(
                         controller: _newValueController,
                         decoration: InputDecoration(
-                          suffixText:
-                              AppLocalizations.of(context)?.enterNewVal ?? '',
+                          suffixText: AppLocalizations.of(context)?.enterNewVal ?? '',
                         ),
                         // onChanged: (value) {},
                       ),
                       actions: [
                         TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(AppLocalizations.of(context)?.cancel ?? '')
-                        ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(AppLocalizations.of(context)?.cancel ?? '')),
                         //TODO ekleme işlemleri burada yapılacak
                         TextButton(
                           onPressed: () {
-                            writeNewValue(registerList[index].registerAddress,
-                                _newValueController);
+                            writeNewValue(registerList[index].registerAddress, _newValueController);
                           },
                           child: Text(AppLocalizations.of(context)?.add ?? ''),
                         ),
@@ -157,12 +146,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).brightness == Brightness.light
-                    ? const Color(0xFF9B59B6)
-                    : const Color(0xFF9B59B6).withOpacity(0.5),
+                primary: Theme.of(context).brightness == Brightness.light ? const Color(0xFF9B59B6) : const Color(0xFF9B59B6).withOpacity(0.5),
               ),
-              child: Text(AppLocalizations.of(context)?.add ?? '',
-                  style: TextStyle(color: Colors.white)),
+              child: Text(AppLocalizations.of(context)?.add ?? '', style: TextStyle(color: Colors.white)),
             ),
           ),
         );

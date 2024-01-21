@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile_project/data/register_list.dart';
 import 'package:mobile_project/my_theme.dart';
-import 'package:mobile_project/provider/register_notifier.dart';
 import 'package:mobile_project/provider/theme_provider.dart';
 import 'package:mobile_project/screens/auth_check.dart';
 import 'package:mobile_project/service/connection_service.dart';
