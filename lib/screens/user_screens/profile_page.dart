@@ -35,79 +35,78 @@ class _ProfilePageState extends State<ProfilePage> {
   Map<String, dynamic> userDetails = {}; // Move userDetails here
   // User? _currentUser; // Define _currentUser as nullable
 
-  Future<void> showEditDialog(String fieldName, String currentValue) async {
-    TextEditingController _editingController =
-        TextEditingController(text: currentValue);
-    try {
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('${AppLocalizations.of(context)!.edit} $fieldName'),
-            content: TextField(
-              controller: _editingController,
-              decoration: InputDecoration(
-                  hintText: '${AppLocalizations.of(context)!.edit} $fieldName'),
+Future<void> showEditDialog(String fieldName, String currentValue) async {
+  TextEditingController _editingController =
+      TextEditingController(text: currentValue);
+  try {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('${AppLocalizations.of(context)!.edit}'),
+          content: TextField(
+            controller: _editingController,
+            decoration: InputDecoration(
+                hintText: '${AppLocalizations.of(context)!.edit}'),
+          ),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cancel button
+              },
+              child: Text(
+                AppLocalizations.of(context)?.cancel ?? '',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium!.color),
+              ),
             ),
-            actionsAlignment: MainAxisAlignment.spaceBetween,
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Cancel button
-                },
-                child: Text(
-                  AppLocalizations.of(context)?.cancel ?? '',
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyMedium!.color),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  // Update the field in Firestore and Firebase Authentication
-                  if (fieldName == AppLocalizations.of(context)?.display) {
-                    await fireStoreService.updateUserDetails(
-                        userDetails['email'],
-                        {'displayName': _editingController.text});
-                    print('User displayName changed successfully!');
-                  } else if (fieldName == AppLocalizations.of(context)?.email) {
-                    // // Update email in Firestore
-                    // await fireStoreService.updateUserDetails(userDetails['email'], {'email': _editingController.text});
-                    // authService.signOut();
-                  } else if (fieldName ==
-                      AppLocalizations.of(context)?.phoneNum) {
-                    await fireStoreService.updateUserDetails(
-                        userDetails['email'],
-                        {'phoneNumber': _editingController.text});
-                    print('Phone number changed Successfully!');
-                  }
+            ElevatedButton(
+              onPressed: () async {
+                // Update the field in Firestore and Firebase Authentication
+                if (fieldName == AppLocalizations.of(context)?.display) {
+                  await fireStoreService.updateUserDetails(
+                      userDetails['email'],
+                      {'displayName': _editingController.text});
+                  print('User displayName changed successfully!');
+                } else if (fieldName == AppLocalizations.of(context)?.email) {
+                  // // Update email in Firestore
+                  // await fireStoreService.updateUserDetails(userDetails['email'], {'email': _editingController.text});
+                  // authService.signOut();
+                } else if (fieldName ==
+                    AppLocalizations.of(context)?.phoneNum) {
+                  await fireStoreService.updateUserDetails(
+                      userDetails['email'],
+                      {'phoneNumber': _editingController.text});
+                  print('Phone number changed Successfully!');
+                }
 
-                  // Refresh the UI with the updated user details
-                  setState(() {
-                    userDetails[fieldName] = _editingController.text;
-                  });
+                // Refresh the UI with the updated user details
+                setState(() {
+                  userDetails[fieldName] = _editingController.text;
+                });
 
-                  Navigator.of(context).pop(); // Save button
-                },
-                child: Text(
-                  AppLocalizations.of(context)?.save ?? '',
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyMedium!.color),
-                ),
+                Navigator.of(context).pop(); // Save button
+              },
+              child: Text(
+                AppLocalizations.of(context)?.save ?? '',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium!.color),
               ),
-            ],
-          );
-        },
-      );
-    } catch (e) {
-      // Handle errors here, you can show a message to the user
-      print('Error: $e');
-      // Show a snackbar or some other user-friendly message
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//Text('${AppLocalizations.of(context)!.edit} $fieldName'),
-        content: Text('${AppLocalizations.of(context)!.errMsg} $e'),
-      ));
-    }
+            ),
+          ],
+        );
+      },
+    );
+  } catch (e) {
+    // Handle errors here, you can show a message to the user
+    print('Error: $e');
+    // Show a snackbar or some other user-friendly message
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('${AppLocalizations.of(context)!.edit} $fieldName'),
+    ));
   }
+}
 
   Future<Map<String, dynamic>> getUserDetails() async {
     final email = await secureStorage.read(key: Constants.userEmail) ?? '';

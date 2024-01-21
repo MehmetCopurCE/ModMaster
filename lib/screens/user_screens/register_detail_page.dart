@@ -13,6 +13,7 @@ class RegisterDetailPage extends StatefulWidget {
   final String registerName;
 
   const RegisterDetailPage({required this.registerName, Key? key})
+     
       : super(key: key);
 
   @override
@@ -81,125 +82,61 @@ class _RegisterDetailPageState extends State<RegisterDetailPage> {
                     );
                   }
 
-                  var registerData =
-                      snapshot.data!.data() as Map<String, dynamic>;
-                  Register register = Register.fromJson(registerData);
+          var registerData = snapshot.data!.data() as Map<String, dynamic>;
+          Register register = Register.fromJson(registerData);
 
                   List<List<dynamic>> list = processData(register);
 
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(height: 16),
-                        _buildInfoCard(
-                          'Last Value',
-                          '${register.registerValue.last.value}',
-                        ),
-                        SizedBox(height: 16),
-                        _buildInfoCard(
-                          'Okunan Register Değeri Sayısı',
-                          '${register.registerValue.length}',
-                        ),
-                        SizedBox(height: 16),
-                        MyChart(
-                          registerName: widget.registerName,
-                        ),
-                        SizedBox(height: 16),
-                        Card(
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Center(
-                              child: Text(
-                                'Okunan son 25 Değer',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: register.registerValue.length > 25
-                              ? 25
-                              : register.registerValue.length,
-                          itemBuilder: (context, index) {
-                            var reversedIndex =
-                                register.registerValue.length - index - 1;
-                            var value = register.registerValue[reversedIndex];
-                            return Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              color: Colors.white,
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Padding(
-                                padding: const EdgeInsets.all(9.0),
-                                child: Center(
-                                  child: Text(
-                                    'Value: ${value.value}',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Last Value: ${register.registerValue.last.value}',
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Last Date: ${formatDateTime(register.registerValue.last.date)}',
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Okunan register değer sayısı: ${register.registerValue.length}',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 16),
+                // MyChartWidget(
+                //   list: list,
+                //   registerName: widget.registerName,
+                // ),
+                MyChart(registerName: widget.registerName),
+                Expanded(
+                  child: ListView.builder(
+                    //reverse: false, // Liste sıralamasını ters çevir
+                    // physics: BouncingScrollPhysics(), // Kaydırmayı ekler
 
-  Widget _buildInfoCard(String title, String value) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+                    itemCount: register.registerValue.length,
+                    itemBuilder: (context, index) {
+                      var value = register.registerValue[index];
+                      return ListTile(
+                        title: Text(formatDateTime(value.date)),
+                        subtitle: Text('Value: ${value.value}'),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 8),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
-    );
+    ])
+        )) ); 
   }
 
   String formatDateTime(DateTime dateTime) {
     return DateFormat('HH:mm:ss').format(dateTime);
-  }
+    }
 }

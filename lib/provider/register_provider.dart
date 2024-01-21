@@ -100,7 +100,8 @@ class RegisterNotifier extends StateNotifier<List<int>> {
       final dummyList = registerService.getDummyList();
       //TO DO
 
-      //state = updatedRegisters;
+      //
+     // state = updatedRegisters;
        state = dummyList;
       fireStoreService.updateAllRegistersInBatch2(userEmail, updatedRegisters);
       print('Bir Modbus okuma döngüsü bitti');
