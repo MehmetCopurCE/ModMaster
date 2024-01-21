@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/utils/custom_show_alert_message.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
-  const ForgotPasswordForm({super.key});
+  const ForgotPasswordForm({Key? key}) : super(key: key);
 
   @override
   ForgotPasswordFormState createState() => ForgotPasswordFormState();
@@ -28,19 +30,10 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
           key: _formKey,
           child: Column(
             children: [
-              // const Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text(
-              //       "Sign In",
-              //       style: TextStyle(fontWeight: FontWeight.bold),
-              //     ),
-              //   ],
-              // ),
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)?.email ?? 'Email',
                   prefixIcon: Icon(Icons.mail),
                 ),
                 keyboardType: TextInputType.emailAddress,
@@ -62,7 +55,10 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child: const Text('Send', style: TextStyle(color: Colors.white)),
+                child: Text(
+                  AppLocalizations.of(context)?.send ?? 'Send',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
@@ -78,7 +74,13 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
           email: _emailController.text,
         );
 
-        ShowMessage().showMessage(context, "Reset Password Successfully!", "Password reset email sent. Please check your inbox.");
+        ShowMessage().showMessage(
+          context,
+          AppLocalizations.of(context)?.resetPasswordSuccessTitle ??
+              'Reset Password Successfully!',
+          AppLocalizations.of(context)?.resetPasswordSuccessMessage ??
+              'Password reset email sent. Please check your inbox.',
+        );
       } on FirebaseAuthException catch (e) {
         debugPrint("FirebaseAuthException: $e");
 
@@ -86,20 +88,33 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
         switch (e.code) {
           case 'invalid-email':
-            errorMessage = 'The email address is badly formatted.';
+            errorMessage =
+                AppLocalizations.of(context)?.invalidEmail ?? 'Invalid email';
             break;
           case 'user-not-found':
-            errorMessage = 'No user found with this email.';
+            errorMessage =
+                AppLocalizations.of(context)?.userNotFound ?? 'User not found';
             break;
           default:
-            errorMessage = 'Password reset failed. Please try again later.';
+            errorMessage = AppLocalizations.of(context)?.resetPasswordFailed ??
+                'Password reset failed. Please try again later.';
         }
 
-        ShowMessage().showMessage(context, "Reset Password Failed", errorMessage);
+        ShowMessage().showMessage(
+          context,
+          AppLocalizations.of(context)?.resetPasswordFailed ??
+              'Reset Password Failed',
+          errorMessage,
+        );
       } catch (e) {
         debugPrint("Error: $e");
-        // Handle other errors here
-        ShowMessage().showMessage(context, "Reset Password Failed", "Please try again later.");
+        ShowMessage().showMessage(
+          context,
+          AppLocalizations.of(context)?.resetPasswordFailed ??
+              'Reset Password Failed',
+          AppLocalizations.of(context)?.tryAgainLater ??
+              'Please try again later.',
+        );
       }
     }
   }

@@ -6,6 +6,9 @@ import 'package:mobile_project/screens/user_screens/connection_setting_page.dart
 import 'package:mobile_project/widgets/setting_item.dart';
 import 'package:mobile_project/widgets/setting_switch.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'help_page.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -28,22 +31,26 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SettingItem(
-              title: "Bağlantı ayarları",
+              title: AppLocalizations.of(context)?.connectionSettings ?? '',
               bgColor: Colors.blue.shade50,
               iconColor: Colors.blue,
               icon: Ionicons.wifi,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ConnectionSettingsPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ConnectionSettingsPage()));
               },
               isEditiable: false,
             ),
             const SizedBox(height: 20),
             SettingItem(
-              title: "Language",
+              title: AppLocalizations.of(context)?.lang ?? '',
               icon: Ionicons.earth,
               bgColor: Colors.green.shade50,
               iconColor: Colors.green,
-              value: "English",
+              value: AppLocalizations.of(context)?.en ?? '',
+              // "English",
               onTap: () {},
               isEditiable: false,
             ),
@@ -68,27 +75,40 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             //     provider.toggleTheme(value);
             //   },
             // ),
+         const SizedBox(height: 20),
+SettingSwitch(
+  title: AppLocalizations.of(context)?.theme ?? '',
+  icon: Ionicons.moon,
+  bgColor: Colors.blueGrey.shade800,
+  iconColor: Colors.yellow,
+  value: themeMode == ThemeMode.dark,
+  onTap: (value) {
+    final newThemeMode = value ? ThemeMode.dark : ThemeMode.light;
+    ref.read(themeProvider.notifier).setTheme(newThemeMode);
+  }, switchOnText:AppLocalizations.of(context)?.darkOn ?? '',
+  
+  // Uncomment the lines below to use switchOnText and switchOffText
+  //switchOnText: 
+  //switchOffText: AppLocalizations.of(context)?.switchOff ?? '',
+),
+
+
+        
             const SizedBox(height: 20),
-            SettingSwitch(
-              title: "Dark Mode",
-              icon: Ionicons.moon,
-              bgColor: Colors.blueGrey.shade800,
-              iconColor: Colors.yellow,
-              value: themeMode == ThemeMode.dark,
-              onTap: (value) {
-                final newThemeMode = value ? ThemeMode.dark : ThemeMode.light;
-                ref.read(themeProvider.notifier).setTheme(newThemeMode);
-              },
-            ),
-            const SizedBox(height: 20),
-            SettingItem(
-              title: "Help",
-              icon: Ionicons.help,
-              bgColor: Colors.red.shade50,
-              iconColor: Colors.red,
-              onTap: () {},
-              isEditiable: false,
-            ),
+          
+
+           const SizedBox(height: 20),
+           SettingItem(
+  title: AppLocalizations.of(context)?.help ?? '', // Check this key
+  icon: Ionicons.help,
+  bgColor: Colors.red.shade50,
+  iconColor: Colors.red,
+  onTap: () {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HelpPage()));
+  },
+  isEditiable: false,
+),
+
           ],
         ),
       ),

@@ -12,6 +12,8 @@ import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/service/register_service.dart';
 import 'package:mobile_project/utils/constants.dart';
 import 'firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 FireStoreService fireStoreService = FireStoreService();
 RegisterService registerService = RegisterService();
@@ -33,12 +35,22 @@ void main() async {
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
 
     return MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('tr', ''),
+        Locale('en', ''),
+        Locale('es', ''),
+      ],
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: MyThemes.lightTheme,

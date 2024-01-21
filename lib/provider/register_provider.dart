@@ -18,7 +18,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   RegisterService registerService = RegisterService();
   late modbus.ModbusClient client;
-  
+
   //TODO Bu yazılacak registerları provider ile kontrol edebiliriz
   // List<WriteRegister> writeRegisters = [];
 
@@ -29,7 +29,8 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     await createClient();
     while (true) {
       await readData(); // Veri okuma işlemini çağırın ve tamamlanmasını bekleyin
-      await Future.delayed(const Duration(milliseconds: 5000)); // 2 saniye bekleyin
+      await Future.delayed(
+          const Duration(milliseconds: 5000)); // 2 saniye bekleyin
     }
   }
 
@@ -69,13 +70,19 @@ class RegisterNotifier extends StateNotifier<List<int>> {
       for (int i = 0; i < registerAmount; i += readRegister) {
         List<int> registers = [];
         if (i + readRegister > registerAmount) {
-          registers = await client.readHoldingRegisters(i, (registerAmount - i)).timeout(Duration(seconds: 1));
+          registers = await client
+              .readHoldingRegisters(i, (registerAmount - i))
+              .timeout(Duration(seconds: 1));
           //await Future.delayed(Duration(milliseconds: 100));
-          await Future.delayed(Duration(milliseconds: interRequestDelay)); // 2 s¬niye bekleyin
+          await Future.delayed(
+              Duration(milliseconds: interRequestDelay)); // 2 s¬niye bekleyin
         } else {
-          registers = await client.readHoldingRegisters(i, readRegister).timeout(Duration(seconds: 1));
+          registers = await client
+              .readHoldingRegisters(i, readRegister)
+              .timeout(Duration(seconds: 1));
           //await Future.delayed(Duration(milliseconds: 100));
-          await Future.delayed(Duration(milliseconds: interRequestDelay)); // 2 saniye bekleyin
+          await Future.delayed(
+              Duration(milliseconds: interRequestDelay)); // 2 saniye bekleyin
         }
         readedRegisters.addAll(registers);
         //print('Okunan tag sayısı: ${readedRegisters.length}');
@@ -91,8 +98,10 @@ class RegisterNotifier extends StateNotifier<List<int>> {
     } finally {
       await closeClientConnection();
       final dummyList = registerService.getDummyList();
-      state = updatedRegisters;
-      //state = dummyList;
+      //TO DO
+
+      //state = updatedRegisters;
+       state = dummyList;
       fireStoreService.updateAllRegistersInBatch2(userEmail, updatedRegisters);
       print('Bir Modbus okuma döngüsü bitti');
     }
@@ -100,38 +109,44 @@ class RegisterNotifier extends StateNotifier<List<int>> {
 
   /// Kullanıcının girdiği ip address i burada alıyoruz
   Future<String> getIpAddress() async {
-    final String ipAddress = await secureStorage.read(key: Constants.connectionIpAddress) ?? "";
+    final String ipAddress =
+        await secureStorage.read(key: Constants.connectionIpAddress) ?? "";
     return ipAddress;
   }
 
   Future<int> getPortNumber() async {
-    String stringPortNumber = await secureStorage.read(key: Constants.connectionPortNumber) ?? "502";
+    String stringPortNumber =
+        await secureStorage.read(key: Constants.connectionPortNumber) ?? "502";
     int portNumber = int.parse(stringPortNumber);
     return portNumber;
   }
 
   /// Kullanıcının belirlediği timout süresini burada alıyoruz
   Future<int> getTimeout() async {
-    String stringTimeout = await secureStorage.read(key: Constants.connectionTimeout) ?? "";
+    String stringTimeout =
+        await secureStorage.read(key: Constants.connectionTimeout) ?? "";
     int timeout = int.parse(stringTimeout);
     return timeout;
   }
 
   Future<int> getReadRegister() async {
-    String stringReadRegister = (await secureStorage.read(key: Constants.connectionHoldingRegisterBlockSize))!;
+    String stringReadRegister = (await secureStorage.read(
+        key: Constants.connectionHoldingRegisterBlockSize))!;
     int readRegister = int.parse(stringReadRegister);
     return readRegister;
   }
 
   Future<int> getInterRequestDelay() async {
-    String stringInterRequestDelay = (await secureStorage.read(key: Constants.connectionInterRequestDelay))!;
+    String stringInterRequestDelay =
+        (await secureStorage.read(key: Constants.connectionInterRequestDelay))!;
     int interRequestDelay = int.parse(stringInterRequestDelay);
     return interRequestDelay;
   }
 
   /// Kullanıcının girdiği ip address i burada alıyoruz
   Future<String> getUserEmail() async {
-    final String userEmail = await secureStorage.read(key: Constants.userEmail) ?? "";
+    final String userEmail =
+        await secureStorage.read(key: Constants.userEmail) ?? "";
     return userEmail;
   }
 
@@ -158,12 +173,15 @@ class RegisterNotifier extends StateNotifier<List<int>> {
   Future<void> writeTag(List<WriteRegister> writeRegisterList) async {
     try {
       for (var i = 0; i < writeRegisterList.length; i++) {
-        await client.writeSingleRegister(writeRegisterList[i].registerAddress, writeRegisterList[i].newValue);
+        await client.writeSingleRegister(writeRegisterList[i].registerAddress,
+            writeRegisterList[i].newValue);
         print('Veri yazıldı');
         //writeRegisterList.remove(writeRegisters[i]);
-        writeRegisters.removeWhere((register) => register.id == writeRegisterList[i].id);
+        writeRegisters
+            .removeWhere((register) => register.id == writeRegisterList[i].id);
         print('Veri listeden silindi');
-        await Future.delayed(const Duration(milliseconds: 20)); // 0.2 saniye bekleyin
+        await Future.delayed(
+            const Duration(milliseconds: 20)); // 0.2 saniye bekleyin
         ToastMessage('Yeni değer yazıldı');
       }
     } catch (e) {
@@ -172,4 +190,5 @@ class RegisterNotifier extends StateNotifier<List<int>> {
   }
 }
 
-final registerProvider = StateNotifierProvider<RegisterNotifier, List<int>>((ref) => RegisterNotifier());
+final registerProvider = StateNotifierProvider<RegisterNotifier, List<int>>(
+    (ref) => RegisterNotifier());

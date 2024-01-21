@@ -9,6 +9,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_project/models/register.dart';
 import 'package:intl/intl.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class MyChart extends StatefulWidget {
   final String registerName;
 
@@ -56,7 +59,10 @@ class _MyChartState extends State<MyChart> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance.collection('$email-registers').doc(widget.registerName).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('$email-registers')
+          .doc(widget.registerName)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -70,11 +76,12 @@ class _MyChartState extends State<MyChart> {
         }
 
         var registerData = snapshot.data!.data();
-        Register register = Register.fromJson(registerData as Map<String, dynamic>);
+        Register register =
+            Register.fromJson(registerData as Map<String, dynamic>);
         if (registerData == null || registerData is! Map<String, dynamic>) {
           // Handle the case where data is null or not in the expected format
-          return const Center(
-            child: Text('Invalid data format'),
+          return Center(
+            child: Text(AppLocalizations.of(context)?.invalidDate ?? ''),
           );
         }
 
@@ -122,7 +129,11 @@ class _MyChartState extends State<MyChart> {
                       dim: Dim.x,
                     ),
                     'tooltipTouch': PointSelection(
-                      on: {GestureType.scaleUpdate, GestureType.tapDown, GestureType.longPressMoveUpdate},
+                      on: {
+                        GestureType.scaleUpdate,
+                        GestureType.tapDown,
+                        GestureType.longPressMoveUpdate
+                      },
                       devices: {PointerDeviceKind.touch},
                       dim: Dim.x,
                     ),
@@ -159,18 +170,25 @@ class _MyChartState extends State<MyChart> {
         } catch (e) {
           print("Error parsing Register: $e");
           return Center(
-            child: Text('Error parsing Register'),
-          );
+              child: Text(AppLocalizations.of(context)?.errParsReg ?? ''));
         }
       },
     );
   }
 
+  //Date format is localized
+
   String formatDateTime(DateTime dateTime) {
-    return DateFormat('HH:mm:ss').format(dateTime);
+    final DateFormat formatter =
+        DateFormat.yMd(Localizations.localeOf(context).toString());
+    final String formatted = formatter.format(dateTime);
+    return formatted;
   }
 
-  String formatDateTimeGun(DateTime dateTime) {
-    return DateFormat('dd.MM.yyyy').format(dateTime);
+  String formatDateTimeHour(DateTime dateTime) {
+    final DateFormat formatter = DateFormat(
+        'dd.MM.yyyy HH:mm', Localizations.localeOf(context).toString());
+    final String formatted = formatter.format(dateTime);
+    return formatted;
   }
 }

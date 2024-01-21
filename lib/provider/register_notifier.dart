@@ -55,7 +55,7 @@ class RegisterNotifier extends StateNotifier<List<int>> {
         await writeTag(writeRegisters);
       }
 
-      int registerAmount = registerService.getRegisterCount(registerList);
+      int registerAmount = registerService.getRegisterCount(registerList.cast<Map<String, dynamic>>());
       int readRegister = await getReadRegister();
       int interRequestDelay = await getInterRequestDelay();
       List<int> readRegisters = [];

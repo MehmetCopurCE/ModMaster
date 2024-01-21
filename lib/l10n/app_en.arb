@@ -1,6 +1,235 @@
 {
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
-  }
+  "connectionSettings": "Connection Settings",
+  "@connectionSettings": {
+    "description": "Configuration for connection settings."
+  },
+  "portNumber": "Port Number",
+  "@portNumber": {
+    "description": "Port number for the connection."
+  },
+  "ipAddress": "IP Address",
+  "@ipAddress": {
+    "description": "IP address for the connection."
+  },
+  "optWarning": "Attention! Changes in the settings can affect the optimization of the application.",
+  "@optWarning": {
+    "description": "A warning indicating that changes in the settings may impact the application's optimization."
+  },
+  "timeout": "Timeout",
+  "@timeout": {
+    "description": "Timeout configuration."
+  },
+  "newValue": "New Value",
+  "@newValue": {
+    "description": "A new value for a register."
+  },
+  "interRequestDelay": "Inter Request Delay",
+  "@interRequestDelay": {
+    "description": "Delay between consecutive requests."
+  },
+  "holdingRegMsg": "Holding Register Block Size",
+  "@holdingRegMsg": {
+    "description": "Size of the holding register block."
+  },
+  "miliSec": "Milliseconds",
+  "@miliSec": {
+    "description": "Time in milliseconds."
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save the changes."
+  },
+  "newValMsg": "New Value for ",
+  "@newValMsg": {
+    "description": "Message indicating a new value for a register."
+  },
+  "add": "Add",
+  "@add": {
+    "description": "Add an item."
+  },
+  "enterNewVal": "Enter New Value",
+  "@enterNewVal": {
+    "description": "Prompt to enter a new value."
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel an action."
+  },
+  "invalidDate": "Invalid Date Format",
+  "@invalidDate": {
+    "description": "Error indicating an invalid date format."
+  },
+  "errParsReg": "Error Parsing Register",
+  "@errParsReg": {
+    "description": "Error while parsing a register."
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit an item."
+  },
+  "errMsg": "Error occurred.",
+  "@errMsg": {
+    "description": "A message indicating that an error has occurred."
+  },
+  "logoutConfirmation": "Do you want to log out?",
+  "@logoutConfirmation": {
+    "description": "Prompt asking the user if they want to log out of the application."
+  },
+  "errorOccurred": "Error occurred: ",
+  "@errorOccurred": {
+    "description": "A message indicating that an error has occurred."
+  },
+  "logOut": "Log out",
+  "@logOut": {
+    "description": "Log out from the application."
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete an item."
+  },
+  "lastValue": "Last Read Value: ",
+  "@lastValue": {
+    "description": "Displaying the last value of a register with a specific style."
+  },
+  "lang": "Language",
+  "@lang": {
+    "description": "Language selection."
+  },
+  "en": "English",
+  "@en": {
+    "description": "English language."
+  },
+  "theme": "Dark Theme",
+  
+"@theme": {
+    "description": "Template selection."
+  },
+  "charts": "Charts",
+  "@charts": {
+    "description": "Template selection."
+  },
+  "mainPage": "Main Page",
+  "@mainPage": {
+    "description": "Navigate to the main page."
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Access application settings."
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "View and manage user profile."
+  },
+  "ok": "Ok",
+  "@ok": {
+    "description": "Acknowledgment or confirmation."
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Navigate to the home page."
+  },
+  "register": "Register",
+  "@register": {
+   "description":  "Registers of the modbus" 
+  } 
+,"readRegNum": "Read register number: ",
+"@readRegNum": {
+"description": "Number of read registers: "
+},
+"lastReadDate": "Last read date: ",
+"@lastReadDate" : {
+  "description": "last read date of registers"
+},
+"value": "Value: ",
+"@value": {
+  "description": "value number on register"
+},
+
+"passwordResetTitle": "Password Reset",
+"passwordResetMessage": "Password reset link has been sent to your email. Please check your inbox."
+  , "errorTitle": "Error",
+  "passwordResetFailureMessage": "Password reset link could not be sent. Please enter a valid email address.",
+  "passwordResetSuccessMessage": "Password reset link has been sent to your email. Please check your inbox."
+  ,"resetPasswordTitle": "Reset Password",
+    "resetPasswordQuestion": "Reset Password?",
+    "resetPasswordDescription": "Enter the email address associated with your account."
+    ,"signIn": "Sign In",
+    "signUp": "Sign Up",
+    "emailLabel": "Email:",
+    "passwordLabel": "Password ",
+    "emailValue": "deneme@gmail.com",
+    "passwordValue": "123456",
+    "createAccount": "Create Account",
+  "haveAccount": "Already have an account?",
+  "forgotPassword": " Forgot Password?",
+  "showPassword": "Show Password",
+ 
+  "confirmPasswordLabel": "Confirm Password",
+  "enterPassword": "Please enter your password",
+  "shortPassword": "Password cannot be less than 4 characters",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "phoneNumberLabel": "Phone Number",
+  "enterPhoneNumber": "Please enter your phone number",
+
+  "enterEmail": "Please enter your email",
+  "usernameLabel": "Username",
+"no": "No",
+"help": "Help"
+,"darkOn": "On"
+,"darkOff": "Off",
+"deleteAccount": "Are you sure you want to delete your account?",
+"delAccSure": "Delete Account",
+"deleteStr" : "Delete",
+"changePass" : "Change Password" ,
+"email": "E-mail",
+"passWord": "Password",
+"send": "Send",
+  "resetPasswordSuccessTitle": "Reset Password Successfully!",
+  "resetPasswordSuccessMessage":  "Password reset email sent. Please check your inbox.",
+  "invalidEmail": "The email address is badly formatted.",
+  "userNotFound": "No user found with this email.",
+  "resetPasswordFailed": "Password reset failed. Please try again later.",
+  "tryAgainLater": "Please try again later.",
+  "login": "Log in",
+  "display": "Display name",
+  "phoneNum": "PhoneNumber" ,
+  "resetPasswordTitle": "Reset Password",
+"resetPasswordQuestion": "Reset Password?",
+"resetPasswordDescription": "Enter the email address associated with your account.",
+
+
+  "help": "Help",
+  "helpWelcome": "Welcome to the Help Page!",
+  "helpIntroduction": "This application facilitates communication with Modbus devices. Below is a comprehensive guide to help you make the most of its features:",
+  "helpGettingStarted": "1. Getting Started:",
+  "helpGettingStartedDetailsA": "a. Navigate to \"Connection Settings\" to configure Modbus connection settings.",
+  "helpGettingStartedDetailsB": "b. Provide details such as IP address and port.",
+  "helpGettingStartedDetailsC": "c. Tap \"Save\" to establish a connection with the Modbus device.",
+  "helpReadingModbusRegisters": "2. Reading Modbus Registers:",
+  "helpReadingModbusRegistersDetailsA": "a. Once connected, explore the \"Home Page\" section to access Modbus registers.",
+  "helpReadingModbusRegistersDetailsB": "b. View all available registers on the home page.",
+  "helpReadingModbusRegistersDetailsC": "c. To add a new value to the device, click on \"New Value\", enter the value, and click \"Add\".",
+  "helpRegisterDetailsAndCharts": "3. Register Details and Charts:",
+  "helpRegisterDetailsAndChartsDetailsA": "a. On the \"Home Page\", click on a register to view its details and chart.",
+  "helpRegisterDetailsAndChartsDetailsB": "b. Additionally, visit the \"Chart\" to view charts for all registers.",
+  "helpPasswordAndAccountOperations": "4. Password and Account Operations:",
+  "helpPasswordAndAccountOperationsDetailsA": "a. Manage your password and account settings on the \"Profile\" page.",
+  "helpTroubleshooting": "5. Troubleshooting:",
+  "helpTroubleshootingDetailsA": "a. If connection fails, verify the entered connection details.",
+  "helpTroubleshootingDetailsB": "b. Check the device status and network connectivity.",
+  "helpTroubleshootingDetailsC": "c. Ensure that the Modbus device supports the specified register address.",
+  "helpFrequentlyAskedQuestions": "6. Frequently Asked Questions (FAQ):",
+  "helpFAQDetailsA": "a. Q: How can I add multiple Modbus devices?",
+  "helpFAQDetailsB": "b. Q: Is there a way to export data?",
+  "helpFAQDetailsC": "A: Currently, data export features are not available, but it is planned for future updates.",
+  "helpContactInformation": "7. Contact Information:",
+  "helpContactInformationDetails": "For further assistance or inquiries, feel free to contact our support team:",
+  "helpContactInformationEmail": "- Email: support@example.com",
+  "helpContactInformationPhone": "- Phone: +1 (123) 456-7890"
 }
+
+
+
+
+
+  

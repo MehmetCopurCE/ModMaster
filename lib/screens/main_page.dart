@@ -5,6 +5,8 @@ import 'package:mobile_project/screens/user_screens/my_chart.dart';
 import 'package:mobile_project/screens/user_screens/profile_page.dart';
 import 'package:mobile_project/screens/user_screens/settings_page.dart';
 import 'package:mobile_project/screens/user_screens/home_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BottomNavy extends StatefulWidget {
   const BottomNavy({Key? key}) : super(key: key);
@@ -20,13 +22,13 @@ class _BottomNavyState extends State<BottomNavy> {
     setState(() {
       currentIndex = index;
       if (currentIndex == 0) {
-        title = "Charts";
+        title = AppLocalizations.of(context)?.charts ?? '';
       } else if (currentIndex == 1) {
-        title = "Home Page";
+        title = AppLocalizations.of(context)?.home ?? ''; //home page
       } else if (currentIndex == 2) {
-        title = "Settings";
+        title = AppLocalizations.of(context)?.settings ?? ''; //settings
       } else {
-        title = "Profile";
+        title = AppLocalizations.of(context)?.profile ?? ''; //profile
       }
     });
 
@@ -40,16 +42,16 @@ class _BottomNavyState extends State<BottomNavy> {
 
   Widget? page() {
     if (currentIndex == 0) {
-      title = "Charts";
+      title = AppLocalizations.of(context)?.charts ?? '';
       return ChartPage();
     } else if (currentIndex == 1) {
-      title = "Main Page";
+      title = AppLocalizations.of(context)?.home ?? ''; //main page?home
       return const HomePage();
     } else if (currentIndex == 2) {
-      title = "Settings";
+      title = AppLocalizations.of(context)?.settings ?? ''; //settings
       return SettingsPage();
     } else {
-      title = "Profile";
+      title = AppLocalizations.of(context)?.profile ?? ''; //profile
       return const ProfilePage();
     }
   }
@@ -83,7 +85,8 @@ class _BottomNavyState extends State<BottomNavy> {
       body: page(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+        backgroundColor:
+            Theme.of(context).bottomNavigationBarTheme.backgroundColor,
         onTap: (value) {
           setState(() {
             onTopItem(value);
@@ -92,22 +95,25 @@ class _BottomNavyState extends State<BottomNavy> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            label: "Chart",
+            label: AppLocalizations.of(context)?.charts ?? '',
             icon: const Icon(Icons.bar_chart),
-            backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            backgroundColor:
+                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
           BottomNavigationBarItem(
-            label: "Home Page",
+            label: AppLocalizations.of(context)?.home ?? '', //home page
             icon: const Icon(Icons.home),
-            backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            backgroundColor:
+                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
           BottomNavigationBarItem(
-            label: "Settings",
+            label: AppLocalizations.of(context)?.settings ?? '', //settings
             icon: const Icon(Icons.settings),
-            backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            backgroundColor:
+                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           ),
           BottomNavigationBarItem(
-            label: "Profile",
+            label: AppLocalizations.of(context)?.profile ?? '', //profile
             icon: const Icon(Icons.account_circle),
             // backgroundColor:
             //     Theme.of(context).bottomNavigationBarTheme.backgroundColor,

@@ -9,4 +9,6 @@ List<Map<String, dynamic>> mapRegisterList = [
   {"registerName": "Register 7", "registerAddress": "400007", "registerValue": [], "displayName": ""},
   {"registerName": "Register 8", "registerAddress": "400008", "registerValue": [], "displayName": ""},
   {"registerName": "Register 9", "registerAddress": "400009", "registerValue": [], "displayName": ""},
+
+
 ];

@@ -7,7 +7,8 @@ import 'package:mobile_project/main.dart';
 import 'package:mobile_project/screens/auth_check.dart';
 import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/utils/custom_show_alert_message.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
 
@@ -56,89 +57,91 @@ class RegisterFormState extends State<RegisterForm> {
               //       style: TextStyle(fontWeight: FontWeight.bold),
               //     )
               //   ],
-              // ),
-              TextFormField(
-                controller: _userNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Username',
-                  prefixIcon: Icon(Icons.account_circle),
-                ),
-                keyboardType: TextInputType.name,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your username';
-                  }
-                  return null;
-                },
-              ),
+  TextFormField(
+  controller: _userNameController,
+  decoration: InputDecoration(
+    labelText: AppLocalizations.of(context)?.usernameLabel ?? 'Username',
+    prefixIcon: const Icon(Icons.account_circle),
+  ),
+  keyboardType: TextInputType.name,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return AppLocalizations.of(context)?.usernameLabel ?? 'Please enter your username';
+    }
+    return null;
+  },
+),
+
               const SizedBox(height: 10),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.mail),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-              ),
+             TextFormField(
+  controller: _emailController,
+  decoration: InputDecoration(
+    labelText: AppLocalizations.of(context)?.emailLabel ?? 'Email',
+    prefixIcon: const Icon(Icons.mail),
+  ),
+  keyboardType: TextInputType.emailAddress,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return AppLocalizations.of(context)?.enterEmail ?? 'Please enter your email';
+    }
+    return null;
+  },
+),
+
               const SizedBox(height: 10),
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Phone Number',
-                  prefixIcon: Icon(Icons.phone),
-                ),
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-              ),
+             TextFormField(
+  controller: _phoneController,
+  decoration: InputDecoration(
+    labelText: AppLocalizations.of(context)?.phoneNumberLabel ?? 'Phone Number',
+    prefixIcon: const Icon(Icons.phone),
+  ),
+  keyboardType: TextInputType.phone,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return AppLocalizations.of(context)?.enterPhoneNumber ?? 'Please enter your phone number';
+    }
+    return null;
+  },
+),
+
               const SizedBox(height: 10),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: passwordSecure,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  prefixIcon: Icon(Icons.lock),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  } else if (_passwordController.text.length < 4) {
-                    return 'Password cannot be less than 4 character';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _checkPasswordController,
-                obscureText: passwordSecure,
-                decoration: const InputDecoration(
-                  labelText: 'Confirm Password',
-                  prefixIcon: Icon(Icons.lock),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  } else if (_checkPasswordController.text.length < 4) {
-                    return 'Password cannot be less than 4 character';
-                  } else if (_checkPasswordController.text != _passwordController.text) {
-                    return "Passwords do not match!";
-                  }
-                  return null;
-                },
-              ),
+             TextFormField(
+  controller: _passwordController,
+  obscureText: passwordSecure,
+  decoration: InputDecoration(
+    labelText: AppLocalizations.of(context)?.passwordLabel ?? 'Password',
+    prefixIcon: const Icon(Icons.lock),
+  ),
+  keyboardType: TextInputType.emailAddress,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return AppLocalizations.of(context)?.enterPassword ?? 'Please enter your password';
+    } else if (_passwordController.text.length < 4) {
+      return AppLocalizations.of(context)?.shortPassword ?? 'Password cannot be less than 4 characters';
+    }
+    return null;
+  },
+),
+TextFormField(
+  controller: _checkPasswordController,
+  obscureText: passwordSecure,
+  decoration: InputDecoration(
+    labelText: AppLocalizations.of(context)?.confirmPasswordLabel ?? 'Confirm Password',
+    prefixIcon: const Icon(Icons.lock),
+  ),
+  keyboardType: TextInputType.emailAddress,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return AppLocalizations.of(context)?.enterPassword ?? '';
+    } else if (_checkPasswordController.text.length < 4) {
+      return AppLocalizations.of(context)?.shortPassword ?? '';
+    } else if (_checkPasswordController.text != _passwordController.text) {
+      return AppLocalizations.of(context)?.passwordsDoNotMatch ?? '';
+    }
+    return null;
+  },
+),
+
               const SizedBox(height: 10),
               Row(
                 children: [
@@ -150,7 +153,9 @@ class RegisterFormState extends State<RegisterForm> {
                       });
                     },
                   ),
-                  const Text("Show Password")
+                   Text(
+  AppLocalizations.of(context)?.showPassword ?? ' ',
+),
                 ],
               ),
               const SizedBox(height: 20),
@@ -164,7 +169,10 @@ class RegisterFormState extends State<RegisterForm> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
+               child: Text(
+  AppLocalizations.of(context)?.signUp ?? 'Sign Up',
+  style: TextStyle(color: Colors.white),
+),
               ),
             ],
           ),

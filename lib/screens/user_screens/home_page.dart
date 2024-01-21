@@ -7,6 +7,8 @@ import 'package:mobile_project/provider/register_provider.dart';
 import 'package:mobile_project/screens/user_screens/register_detail_page.dart';
 import 'package:mobile_project/service/register_service.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 List<WriteRegister> writeRegisters = [];
 
@@ -21,15 +23,17 @@ class _HomePageState extends ConsumerState<HomePage> {
   final TextEditingController _newValueController = TextEditingController();
   Uuid uuid = const Uuid();
 
-  void writeNewValue(String registerAddress, TextEditingController controller) async {
+  void writeNewValue(
+      String registerAddress, TextEditingController controller) async {
     String id = uuid.v4();
     int enteredValue = int.parse(controller.text);
     int index = int.parse(registerAddress) - 400000;
     print('Register Address : $index');
-    final newWrite = WriteRegister(id: id, registerAddress: index, newValue: enteredValue);
+    final newWrite =
+        WriteRegister(id: id, registerAddress: index, newValue: enteredValue);
     setState(() {
       writeRegisters.add(newWrite);
-      print('WriteRegists a eklendi');
+      print('WriteRegisters a eklendi. ');
     });
     FocusScope.of(context).unfocus();
     Timer(Duration(seconds: 1), () {
@@ -45,6 +49,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    
     final registerValues = ref.watch(registerProvider);
 
     if (registerValues.isEmpty)
@@ -66,7 +72,8 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           clipBehavior: Clip.antiAlias,
           child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             // tileColor: Colors.white,
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -109,11 +116,23 @@ class _HomePageState extends ConsumerState<HomePage> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       backgroundColor: Colors.white,
-                      title: Text('New Value for ${registerList[index].registerName}'),
+                      // TO DO
+                      // title:
+                      //  title: Text(AppLocalizations.of(context)!.helloWorld),
+                      //Text(
+                      // '${AppLocalizations.of(context)!.newValMsg} ${registerList[index].registerName}',),
+//
+
+                      title: Text(
+                        '${registerList[index].registerName} ${AppLocalizations.of(context)!.newValMsg}'
+
+                      ),
+
                       content: TextField(
                         controller: _newValueController,
-                        decoration: const InputDecoration(
-                          labelText: 'Enter New Value',
+                        decoration: InputDecoration(
+                          suffixText:
+                              AppLocalizations.of(context)?.enterNewVal ?? '',
                         ),
                         // onChanged: (value) {},
                       ),
@@ -122,14 +141,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: const Text('Cancel'),
+                          child: Text(AppLocalizations.of(context)?.cancel ?? '')
                         ),
                         //TODO ekleme işlemleri burada yapılacak
                         TextButton(
                           onPressed: () {
-                            writeNewValue(registerList[index].registerAddress, _newValueController);
+                            writeNewValue(registerList[index].registerAddress,
+                                _newValueController);
                           },
-                          child: const Text('Add'),
+                          child: Text(AppLocalizations.of(context)?.add ?? ''),
                         ),
                       ],
                     );
@@ -137,9 +157,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).brightness == Brightness.light ? const Color(0xFF9B59B6) : const Color(0xFF9B59B6).withOpacity(0.5),
+                primary: Theme.of(context).brightness == Brightness.light
+                    ? const Color(0xFF9B59B6)
+                    : const Color(0xFF9B59B6).withOpacity(0.5),
               ),
-              child: const Text('New Value', style: TextStyle(color: Colors.white)),
+              child: Text(AppLocalizations.of(context)?.add ?? '',
+                  style: TextStyle(color: Colors.white)),
             ),
           ),
         );

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SettingSwitch extends StatelessWidget {
   final String title;
   final Color bgColor;
@@ -15,7 +16,7 @@ class SettingSwitch extends StatelessWidget {
     required this.iconColor,
     required this.icon,
     required this.value,
-    required this.onTap,
+    required this.onTap, required switchOnText,
   });
 
   @override
@@ -46,7 +47,9 @@ class SettingSwitch extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            value ? "On" : "Off",
+            value //? "On" : "Off",
+                        //
+                        ? AppLocalizations.of(context)?.darkOn ?? ' '  : AppLocalizations.of(context)?.darkOff ?? ' ' ,
             style: const TextStyle(
               fontSize: 16,
               color: Colors.grey,

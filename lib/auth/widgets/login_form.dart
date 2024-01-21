@@ -8,6 +8,8 @@ import 'package:mobile_project/service/register_service.dart';
 import 'package:mobile_project/utils/constants.dart';
 import 'package:mobile_project/utils/custom_show_alert_message.dart';
 import '../../screens/user_screens/home_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -60,14 +62,14 @@ class LoginFormState extends State<LoginForm> {
               // ),
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)?.email ?? ' ',
                   prefixIcon: Icon(Icons.mail),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+                    return AppLocalizations.of(context)?.enterEmail ?? ' ';
                   }
                   return null;
                 },
@@ -76,8 +78,8 @@ class LoginFormState extends State<LoginForm> {
               TextFormField(
                 controller: _passwordController,
                 obscureText: passwordSecure,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)?.passWord ?? ' ',
                   prefixIcon: Icon(Icons.lock),
                   // suffixIcon: IconButton(
                   //   onPressed: () {
@@ -92,7 +94,7 @@ class LoginFormState extends State<LoginForm> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
+                    return AppLocalizations.of(context)?.enterPassword ?? ' '; 
                   }
                   return null;
                 },
@@ -108,7 +110,13 @@ class LoginFormState extends State<LoginForm> {
                       });
                     },
                   ),
-                  const Text("Show Password")
+                  Text(
+  AppLocalizations.of(context)?.showPassword ?? ' ',
+  style: TextStyle(
+    // Your text style here
+  ),
+)
+
                 ],
               ),
               const SizedBox(height: 20),
@@ -122,7 +130,8 @@ class LoginFormState extends State<LoginForm> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child: const Text('Login', style: TextStyle(color: Colors.white)),
+                child:
+                   Text( AppLocalizations.of(context)?.login?? ' ', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
@@ -140,16 +149,19 @@ class LoginFormState extends State<LoginForm> {
         //   password: _passwordController.text,
         // );
 
-        User? user = await authService.login(_emailController.text, _passwordController.text);
+        User? user = await authService.login(
+            _emailController.text, _passwordController.text);
         if (user != null) {
-          await secureStorage.write(key: Constants.userEmail, value: _emailController.text);
+          await secureStorage.write(
+              key: Constants.userEmail, value: _emailController.text);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => BottomNavy()),
           );
         } else {
           //_showErrorSnackbar('Login failed. Check your email and password.');
-          ShowMessage().showMessage(context, "Login Failed", "Check your email and password.");
+          ShowMessage().showMessage(
+              context, "Login Failed", "Check your email and password.");
         }
       } on FirebaseAuthException catch (e) {
         debugPrint("FirebaseAuthException: $e");
@@ -174,7 +186,8 @@ class LoginFormState extends State<LoginForm> {
       } catch (e) {
         debugPrint("Error: $e");
         //_showErrorSnackbar('Login failed. Check your email and password.');
-        ShowMessage().showMessage(context, "Login failed", "Check your email and password.");
+        ShowMessage().showMessage(
+            context, "Login failed", "Check your email and password.");
       }
     }
   }

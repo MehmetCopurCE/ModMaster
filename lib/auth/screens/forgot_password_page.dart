@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/utils/custom_show_alert_message.dart';
 import 'package:mobile_project/auth/widgets/forgot_password_form.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   ForgotPasswordPage({super.key});
@@ -23,8 +25,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       try {
         await _auth.sendPasswordResetEmail(email: enteredEmail);
         // // E-posta gönderildiğinde başarılı olduğunu kullanıcıya bildirin
-        ShowMessage()
-            .showMessage(context, "Şifre Sıfırlama", "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.");
+        ShowMessage().showMessage(
+            context,
+            AppLocalizations.of(context)?.passwordResetTitle ?? " ",
+            AppLocalizations.of(context)?.passwordResetMessage ?? "");
       } catch (e) {
         print("Error sending password reset email: $e");
         // Hata durumunda kullanıcıya bir hata mesajı gösterin
@@ -46,7 +50,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         //     );
         //   },
         // );
-        ShowMessage().showMessage(context, "Hata", "Şifre sıfırlama bağlantısı gönderilemedi. Lütfen geçerli bir e-posta adresi girin.");
+        ShowMessage().showMessage(
+          context,
+          AppLocalizations.of(context)?.errorTitle ?? ' ',
+          AppLocalizations.of(context)?.passwordResetFailureMessage ?? ' ',
+        );
       }
     }
   }
@@ -61,7 +69,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reset Password'),
+        title: Text(AppLocalizations.of(context)?.resetPasswordTitle ?? ' '),
         centerTitle: true,
         // backgroundColor: Colors.white,
       ),
@@ -73,17 +81,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset("assets/images/img_reset_password.png", width: 100),
-                const Text(
-                  "Reset Password?",
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)?.resetPasswordQuestion ?? " ",
+                  style: const TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
                     color: Colors.blueAccent,
                   ),
                 ),
-                const Text(
-                  "Enter the email address associated with your account.",
-                  style: TextStyle(fontSize: 18),
+                Text(
+                  AppLocalizations.of(context)?.resetPasswordDescription ?? " ",
+                  style: const TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),

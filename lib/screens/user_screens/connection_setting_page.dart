@@ -4,6 +4,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile_project/provider/register_provider.dart';
 import 'package:mobile_project/utils/constants.dart';
 import 'package:mobile_project/utils/custom_progress_dialog.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConnectionSettingsPage extends ConsumerStatefulWidget {
   const ConnectionSettingsPage({super.key});
@@ -12,21 +14,35 @@ class ConnectionSettingsPage extends ConsumerStatefulWidget {
   ConnectionSettingsPageState createState() => ConnectionSettingsPageState();
 }
 
-class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> {
+class ConnectionSettingsPageState
+    extends ConsumerState<ConnectionSettingsPage> {
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   final TextEditingController _ipController = TextEditingController();
   final TextEditingController _portNumberController = TextEditingController();
   final TextEditingController _timeoutController = TextEditingController();
-  final TextEditingController _interRequestDelayController = TextEditingController();
-  final TextEditingController _holdingRegisterBlockSizeController = TextEditingController();
+  final TextEditingController _interRequestDelayController =
+      TextEditingController();
+  final TextEditingController _holdingRegisterBlockSizeController =
+      TextEditingController();
 
-  Future<void> writeIp(TextEditingController ipController, TextEditingController portController, TextEditingController timeoutController,
-      TextEditingController interRequestDelayController, TextEditingController holdingRegisterBlockSizeController) async {
-    await secureStorage.write(key: Constants.connectionIpAddress, value: ipController.text);
-    await secureStorage.write(key: Constants.connectionPortNumber, value: portController.text);
-    await secureStorage.write(key: Constants.connectionTimeout, value: timeoutController.text);
-    await secureStorage.write(key: Constants.connectionInterRequestDelay, value: interRequestDelayController.text);
-    await secureStorage.write(key: Constants.connectionHoldingRegisterBlockSize, value: holdingRegisterBlockSizeController.text);
+  Future<void> writeIp(
+      TextEditingController ipController,
+      TextEditingController portController,
+      TextEditingController timeoutController,
+      TextEditingController interRequestDelayController,
+      TextEditingController holdingRegisterBlockSizeController) async {
+    await secureStorage.write(
+        key: Constants.connectionIpAddress, value: ipController.text);
+    await secureStorage.write(
+        key: Constants.connectionPortNumber, value: portController.text);
+    await secureStorage.write(
+        key: Constants.connectionTimeout, value: timeoutController.text);
+    await secureStorage.write(
+        key: Constants.connectionInterRequestDelay,
+        value: interRequestDelayController.text);
+    await secureStorage.write(
+        key: Constants.connectionHoldingRegisterBlockSize,
+        value: holdingRegisterBlockSizeController.text);
     setState(() {});
 
     //Navigator.of(context).pop();
@@ -34,11 +50,18 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
   }
 
   Future<void> getIp() async {
-    _ipController.text = await secureStorage.read(key: Constants.connectionIpAddress) ?? "";
-    _portNumberController.text = await secureStorage.read(key: Constants.connectionPortNumber) ?? "";
-    _timeoutController.text = await secureStorage.read(key: Constants.connectionTimeout) ?? "";
-    _interRequestDelayController.text = await secureStorage.read(key: Constants.connectionInterRequestDelay) ?? "";
-    _holdingRegisterBlockSizeController.text = await secureStorage.read(key: Constants.connectionHoldingRegisterBlockSize) ?? "";
+    _ipController.text =
+        await secureStorage.read(key: Constants.connectionIpAddress) ?? "";
+    _portNumberController.text =
+        await secureStorage.read(key: Constants.connectionPortNumber) ?? "";
+    _timeoutController.text =
+        await secureStorage.read(key: Constants.connectionTimeout) ?? "";
+    _interRequestDelayController.text =
+        await secureStorage.read(key: Constants.connectionInterRequestDelay) ??
+            "";
+    _holdingRegisterBlockSizeController.text = await secureStorage.read(
+            key: Constants.connectionHoldingRegisterBlockSize) ??
+        "";
     print('Yeni ip değeri alındı');
     setState(() {});
   }
@@ -59,7 +82,13 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Bağlantı Ayarları'),
+
+        //localization try
+        //title: const Text('Bağlantı Ayarları'),
+        //  title: Text(AppLocalizations.of(context)!.helloWorld),
+        title: Text(AppLocalizations.of(context)?.connectionSettings ?? ''),
+
+        //this way, it shows an empty string instead of giving null error.
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -75,7 +104,7 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
                 ),
               ),
               child: ListTile(
-                title: const Text('Ip Adresi'),
+                title: Text(AppLocalizations.of(context)?.ipAddress ?? ''),
                 subtitle: TextFormField(
                   controller: _ipController,
                   keyboardType: TextInputType.number,
@@ -96,11 +125,14 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
                 ),
               ),
               child: ListTile(
-                title: const Text('Port Numarası'),
+                title: Text(
+                    AppLocalizations.of(context)?.portNumber ?? ''),
                 subtitle: TextFormField(
                   controller: _portNumberController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(suffixText: ''),
+                  decoration: InputDecoration(
+                    suffixText: AppLocalizations.of(context)?.portNumber ?? '',
+                  ),
                 ),
               ),
             ),
@@ -114,11 +146,13 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
                 ),
               ),
               child: ListTile(
-                title: const Text('Timeout'),
+                title: Text(AppLocalizations.of(context)?.timeout ?? ''),
                 subtitle: TextFormField(
                   controller: _timeoutController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(suffixText: ' milliseconds'),
+                  decoration: InputDecoration(
+                    suffixText: AppLocalizations.of(context)?.miliSec ?? '',
+                  ),
                 ),
               ),
             ),
@@ -132,11 +166,15 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
                 ),
               ),
               child: ListTile(
-                title: const Text('Inter Request Delay'),
+                title:
+                    Text(AppLocalizations.of(context)?.interRequestDelay ?? ''),
+                // title: const Text('Inter Request Delay'),
                 subtitle: TextFormField(
                   controller: _interRequestDelayController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(suffixText: ' milliseconds'),
+                  decoration: InputDecoration(
+                    suffixText: AppLocalizations.of(context)?.miliSec ?? '',
+                  ),
                 ),
               ),
             ),
@@ -150,11 +188,13 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
                 ),
               ),
               child: ListTile(
-                title: const Text('Holding Register Block Size'),
+                title: Text(AppLocalizations.of(context)?.holdingRegMsg ?? ''),
                 subtitle: TextFormField(
                   controller: _holdingRegisterBlockSizeController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(suffixText: ''),
+                  decoration: InputDecoration(
+                    suffixText: AppLocalizations.of(context)?.miliSec ?? '',
+                  ),
                 ),
               ),
             ),
@@ -188,17 +228,18 @@ class ConnectionSettingsPageState extends ConsumerState<ConnectionSettingsPage> 
                       titleFontSize: 16,
                     ).show(context);
                   },
-                  child: const Text('Kaydet'),
+
+                  child: Text(AppLocalizations.of(context)?.save ?? ''),
                 ),
               ],
             ),
             const SizedBox(height: 8.0),
-            const Column(
+            Column(
               children: [
                 Icon(Icons.warning, color: Colors.yellow),
                 SizedBox(height: 8.0),
                 Text(
-                  'Ayarlardaki değişiklikler uygulamanın optimizasyonunu bozabilir',
+                  AppLocalizations.of(context)?.optWarning ?? '',
                   overflow: TextOverflow.visible,
                   textAlign: TextAlign.center,
                 ),
