@@ -51,7 +51,7 @@ class MyApp extends ConsumerWidget {
         Locale('es', ''),
       ],
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'ModMaster',
       theme: MyThemes.lightTheme,
       darkTheme: MyThemes.darkTheme,
       themeMode: themeMode,
@@ -59,8 +59,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-// Firebase Authentication - Profile Page  --> Şeyma
-// Settings Page                           --> Ebru
-// HomePage - Modbus write/read            --> Efşan
-// Chart Page - Register Detail Page       --> Mehmet
