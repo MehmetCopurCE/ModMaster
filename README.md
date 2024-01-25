@@ -29,6 +29,10 @@ Modbus TCP client, geliştirdiğimiz mobil uygulama üzerinden endüstriyel otom
 |-----------|-----------|-----------|
 | <img src="assets/app_images/register_detail_page.jpg" width="200"> | <img src="assets/app_images/chart_page.jpg" width="200"> | <img src="assets/app_images/connection_settings.png" width="200"> | 
 
+| Login Page | Register Page |
+|-----------|-----------|
+| <img src="assets/app_images/login_page.png" width="200"> | <img src="assets/app_images/register_page.png" width="200"> |
+
 
 ### What is Modbus TCP Client ?
 
