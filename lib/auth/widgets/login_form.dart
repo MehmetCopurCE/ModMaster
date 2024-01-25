@@ -30,8 +30,6 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   void initState() {
-    _emailController.text = "lorem.ipsum@gmail.com";
-    _passwordController.text = "123456";
     super.initState();
   }
 
@@ -94,7 +92,7 @@ class LoginFormState extends State<LoginForm> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)?.enterPassword ?? ' '; 
+                    return AppLocalizations.of(context)?.enterPassword ?? ' ';
                   }
                   return null;
                 },
@@ -111,12 +109,11 @@ class LoginFormState extends State<LoginForm> {
                     },
                   ),
                   Text(
-  AppLocalizations.of(context)?.showPassword ?? ' ',
-  style: TextStyle(
-    // Your text style here
-  ),
-)
-
+                    AppLocalizations.of(context)?.showPassword ?? ' ',
+                    style: TextStyle(
+                        // Your text style here
+                        ),
+                  )
                 ],
               ),
               const SizedBox(height: 20),
@@ -130,8 +127,7 @@ class LoginFormState extends State<LoginForm> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child:
-                   Text( AppLocalizations.of(context)?.login?? ' ', style: TextStyle(color: Colors.white)),
+                child: Text(AppLocalizations.of(context)?.login ?? ' ', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
@@ -149,19 +145,16 @@ class LoginFormState extends State<LoginForm> {
         //   password: _passwordController.text,
         // );
 
-        User? user = await authService.login(
-            _emailController.text, _passwordController.text);
+        User? user = await authService.login(_emailController.text, _passwordController.text);
         if (user != null) {
-          await secureStorage.write(
-              key: Constants.userEmail, value: _emailController.text);
+          await secureStorage.write(key: Constants.userEmail, value: _emailController.text);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => BottomNavy()),
           );
         } else {
           //_showErrorSnackbar('Login failed. Check your email and password.');
-          ShowMessage().showMessage(
-              context, "Login Failed", "Check your email and password.");
+          ShowMessage().showMessage(context, "Login Failed", "Check your email and password.");
         }
       } on FirebaseAuthException catch (e) {
         debugPrint("FirebaseAuthException: $e");
@@ -186,8 +179,7 @@ class LoginFormState extends State<LoginForm> {
       } catch (e) {
         debugPrint("Error: $e");
         //_showErrorSnackbar('Login failed. Check your email and password.');
-        ShowMessage().showMessage(
-            context, "Login failed", "Check your email and password.");
+        ShowMessage().showMessage(context, "Login failed", "Check your email and password.");
       }
     }
   }
