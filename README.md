@@ -53,5 +53,5 @@ Modbus TCP client, endüstriyel otomasyon sistemlerinde kullanılan bir iletişi
 - [Cloud Firestore](https://pub.dev/packages/cloud_firestore) <br>
 - [Graphic](https://pub.dev/packages/graphic) <br>
 - [Firebase Core](https://pub.dev/packages/firebase_core) <br>
-- [Firebase Auth](https://pub.dev/packages/firebase_auth){:target="_blank"} <br>
+- [Firebase Auth](https://pub.dev/packages/firebase_auth) <br>
 
