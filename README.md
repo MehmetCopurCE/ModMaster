@@ -19,16 +19,6 @@ ModMaster, Modbus TCP/IP protokolünü kullanan cihazlardan veri okuma ve yazma 
 
 Modbus TCP client, geliştirdiğimiz mobil uygulama üzerinden endüstriyel otomasyon sistemleriyle etkileşimde bulunan bir yazılım parçasıdır. ModMaster, kullanıcıya bu protokol üzerinden cihazlarla etkileşim kurma imkanı sunar. Ana sayfa, modbus register'ları görüntüler ve yeni veri eklemeye izin verir. Profil sayfasında Firebase Authentication entegrasyonu bulunurken, Settings sayfasında modbus bağlantı ayarları ve uygulama tercihleri düzenlenir. Chart sayfası, seçilen register'ın geçmiş verilerini grafikle gösterir. Kullanıcılar, endüstriyel otomasyonu kolayca mobil cihazları üzerinden yönetebilir ve uygulama aracılığıyla cihazlarla etkileşimde bulunabilir. Bu özellikler, README dosyasının kullanım kılavuzunda detaylı olarak açıklanmıştır.
 
-### App Images
-
-| Home Page | Chart Page | Connection Settings Page | Register Detail Page |
-|-----------|-----------|-----------|-----------|
-| <img src="assets/app_images/home_page.jpg" width="180"> | <img src="assets/app_images/chart_page.jpg" width="180"> | <img src="assets/app_images/connection_settings.png" width="180"> | <img src="assets/app_images/register_detail_page.jpg" width="180"> |
-
-
-| Profile Page | Settings Page | Login Page | Register Page |
-|-----------|-----------|-----------|-----------|
-| <img src="assets/app_images/profile_page.png" width="180"> | <img src="assets/app_images/settings_page.png" width="180"> | <img src="assets/app_images/login_page.png" width="180"> | <img src="assets/app_images/register_page.png" width="180"> |
 
 <!--
 settings_page.png
@@ -44,6 +34,17 @@ connection_settings.png
 Modbus TCP client, endüstriyel otomasyon sistemlerinde kullanılan bir iletişim protokolünü uygulayan yazılım veya cihazdır. Temel görevi, endüstriyel cihazlar arasında veri transferi gerçekleştirmek ve kontrol sistemleri ile bu cihazlar arasında etkileşim sağlamaktır. Bu sayede Modbus TCP client, sensör değerlerini okuma, kontrol komutları gönderme, uzaktaki cihazları izleme ve kontrol etme gibi işlevleri yerine getirir. Ayrıca, endüstriyel otomasyon tesislerinde, fabrikalarda ve enerji sistemlerinde Modbus TCP protokolünü destekleyen cihazlarla iletişim kurarak uzaktan izleme, kontrol, veri toplama ve analiz görevlerini yerine getirir. Bu protokol ayrıca SCADA sistemleri tarafından da yaygın olarak kullanılır, bu da Modbus TCP client'ın SCADA ile endüstriyel tesislerdeki cihazlar arasında etkili bir bağlantı sağlamasını mümkün kılar.
 
 
+### App Images
+
+| Home Page | Chart Page | Connection Settings Page | Register Detail Page |
+|-----------|-----------|-----------|-----------|
+| <img src="assets/app_images/home_page.jpg" width="180"> | <img src="assets/app_images/chart_page.jpg" width="180"> | <img src="assets/app_images/connection_settings.png" width="180"> | <img src="assets/app_images/register_detail_page.jpg" width="180"> |
+
+
+| Profile Page | Settings Page | Login Page | Register Page |
+|-----------|-----------|-----------|-----------|
+| <img src="assets/app_images/profile_page.png" width="180"> | <img src="assets/app_images/settings_page.png" width="180"> | <img src="assets/app_images/login_page.png" width="180"> | <img src="assets/app_images/register_page.png" width="180"> |
+
 ### Used Packages
 - [Flutter Riverpod](https://pub.dev/packages/flutter_riverpod) <br>
   <img src="https://github.com/rrousselGit/riverpod/blob/master/resources/icon/Facebook%20Cover%20A.png?raw=true" width="250"> <br>
@@ -54,4 +55,37 @@ Modbus TCP client, endüstriyel otomasyon sistemlerinde kullanılan bir iletişi
 - [Graphic](https://pub.dev/packages/graphic) <br>
 - [Firebase Core](https://pub.dev/packages/firebase_core) <br>
 - [Firebase Auth](https://pub.dev/packages/firebase_auth) <br>
+
+
+### Requirements
+
+You need the following requirements for the application to work:
+
+- [Flutter and Dart SDK](https://docs.flutter.dev/get-started/install)
+- An IDE like [Android Studio](https://developer.android.com/studio) or [Visual Studio Code](https://code.visualstudio.com/download)
+- Emulator or a physical device
+
+
+You can use the following commands to check the requirements:
+
+```
+flutter doctor
+```
+### Setup
+Steps on how to install the app in your local environment:<br>
+1-Clone the repository:
+```
+git clone https://github.com/MehmetCopurCE/mobile_project.git
+```
+
+2-Go to the application directory:
+```
+cd mobile_project
+```
+3- Run the application
+```
+flutter run
+```
+
+<br>
 
