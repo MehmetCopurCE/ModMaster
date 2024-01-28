@@ -2,7 +2,7 @@
 
 <img src="assets/icons/app_icon.png" width="250">
 
-ModMaster, Modbus TCP/IP protokolünü kullanan cihazlardan veri okuma ve yazma işlemleri gerçekleştiren Flutter tabanlı bir mobil uygulamadır.
+ModMaster is a Flutter-based mobile application that performs data reading and writing operations from devices using the Modbus TCP/IP protocol.
 
 
 ![Flutter](https://img.shields.io/badge/flutter-%2302569B?style=plastic&logo=flutter&logoColor=white) <img src="https://img.shields.io/badge/api-21+-red?style=plastic&logo=android" alt="language"> <img src="https://img.shields.io/badge/architecture-mvvm-yellow?style=plastic" alt="language">
@@ -10,14 +10,16 @@ ModMaster, Modbus TCP/IP protokolünü kullanan cihazlardan veri okuma ve yazma 
 ## Contents
 
 - [About the project](#about-the-project)
-- [App Images](#app-images)
 - [What is Modbus TCP Client ?](#what-is-modbus-tcp-client-)
+- [App Images](#app-images)
 - [Used Packages](#used-packages)
+- [Requirements](#requirements)
+- [Setup](#setup)
 
 
 ### About the project
 
-Modbus TCP client, geliştirdiğimiz mobil uygulama üzerinden endüstriyel otomasyon sistemleriyle etkileşimde bulunan bir yazılım parçasıdır. ModMaster, kullanıcıya bu protokol üzerinden cihazlarla etkileşim kurma imkanı sunar. Ana sayfa, modbus register'ları görüntüler ve yeni veri eklemeye izin verir. Profil sayfasında Firebase Authentication entegrasyonu bulunurken, Settings sayfasında modbus bağlantı ayarları ve uygulama tercihleri düzenlenir. Chart sayfası, seçilen register'ın geçmiş verilerini grafikle gösterir. Kullanıcılar, endüstriyel otomasyonu kolayca mobil cihazları üzerinden yönetebilir ve uygulama aracılığıyla cihazlarla etkileşimde bulunabilir. Bu özellikler, README dosyasının kullanım kılavuzunda detaylı olarak açıklanmıştır.
+The Modbus TCP client is a software component that interacts with industrial automation systems through our mobile application. ModMaster allows the user to interact with devices through this protocol. The home page displays modbus registers and allows new data to be added. The profile page includes the Firebase Authentication integration, while the Settings page edits the modbus connection settings and application preferences. The chart page displays the historical data of the selected register in a graph. Users can easily manage industrial automation via mobile devices and interact with devices through the application.
 
 
 <!--
@@ -31,7 +33,7 @@ connection_settings.png
 
 ### What is Modbus TCP Client ?
 
-Modbus TCP client, endüstriyel otomasyon sistemlerinde kullanılan bir iletişim protokolünü uygulayan yazılım veya cihazdır. Temel görevi, endüstriyel cihazlar arasında veri transferi gerçekleştirmek ve kontrol sistemleri ile bu cihazlar arasında etkileşim sağlamaktır. Bu sayede Modbus TCP client, sensör değerlerini okuma, kontrol komutları gönderme, uzaktaki cihazları izleme ve kontrol etme gibi işlevleri yerine getirir. Ayrıca, endüstriyel otomasyon tesislerinde, fabrikalarda ve enerji sistemlerinde Modbus TCP protokolünü destekleyen cihazlarla iletişim kurarak uzaktan izleme, kontrol, veri toplama ve analiz görevlerini yerine getirir. Bu protokol ayrıca SCADA sistemleri tarafından da yaygın olarak kullanılır, bu da Modbus TCP client'ın SCADA ile endüstriyel tesislerdeki cihazlar arasında etkili bir bağlantı sağlamasını mümkün kılar.
+Modbus TCP client is a software or device that implements a communication protocol used in industrial automation systems. Its basic function is to carry out data transfer between industrial devices and to interact with control systems and these devices. This allows the Modbus TCP client to perform functions such as reading sensor values, sending control commands, monitoring and controlling remote devices. It also performs remote monitoring, control, data collection and analysis tasks by communicating with devices supporting the Modbus TCP protocol in industrial automation facilities, factories and energy systems. This protocol is also widely used by SCADA systems, which allows the Modbus TCP client to provide an effective connection between SCADA and devices in industrial facilities.
 
 
 ### App Images
