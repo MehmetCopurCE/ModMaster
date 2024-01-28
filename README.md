@@ -90,6 +90,9 @@ cd ModMaster
 flutter run
 ```
 
+### License
+
+[MIT License](LICENSE)
 
 ### Contact With Me
 
