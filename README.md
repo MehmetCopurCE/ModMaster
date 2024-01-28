@@ -75,12 +75,12 @@ flutter doctor
 Steps on how to install the app in your local environment:<br>
 1-Clone the repository:
 ```
-git clone https://github.com/MehmetCopurCE/mobile_project.git
+git clone https://github.com/MehmetCopurCE/ModMaster.git
 ```
 
 2-Go to the application directory:
 ```
-cd mobile_project
+cd ModMaster
 ```
 3- Run the application
 ```
