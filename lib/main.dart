@@ -9,7 +9,6 @@ import 'package:mobile_project/screens/auth_check.dart';
 import 'package:mobile_project/service/connection_service.dart';
 import 'package:mobile_project/service/firestore_service.dart';
 import 'package:mobile_project/service/register_service.dart';
-import 'package:mobile_project/utils/constants.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
