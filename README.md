@@ -15,8 +15,8 @@ ModMaster is a Flutter-based mobile application that performs data reading and w
 - [Used Packages](#used-packages)
 - [Requirements](#requirements)
 - [Setup](#setup)
-- [Contact With Me](#contact-with-me)
 - [License](#license)
+- [Contact With Me](#contact-with-me)
 
 
 ### About the project
