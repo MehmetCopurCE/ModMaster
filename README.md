@@ -39,7 +39,7 @@ Modbus TCP client is a software or device that implements a communication protoc
 
 ### App Images
 
-| Home Page | Chart Page | Connection Settings Page | Register Detail Page |
+| Home Page | Chart Page | Connection Settings | Register Detail Page |
 |-----------|-----------|-----------|-----------|
 | <img src="assets/app_images/home_page.jpg" width="180"> | <img src="assets/app_images/chart_page.jpg" width="180"> | <img src="assets/app_images/connection_settings.png" width="180"> | <img src="assets/app_images/register_detail_page.jpg" width="180"> |
 
